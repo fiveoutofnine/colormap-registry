@@ -1,0 +1,11 @@
+# Foundry
+cache/
+out/
+broadcast/
+
+# Local env files
+.env
+.env*.local
+
+# Coverage
+lcov.info
