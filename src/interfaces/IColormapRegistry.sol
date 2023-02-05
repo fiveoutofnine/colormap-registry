@@ -7,14 +7,22 @@ import {IPaletteGenerator} from "@/contracts/interfaces/IPaletteGenerator.sol";
 /// @author fiveoutofnine
 /// @dev A colormap may be defined in 2 ways: (1) via segment data and (2) via a
 /// ``palette generator.''
-///
-/// Bitpacked `uint256` of 24-bit words, where each word
-/// has the following structure (right-indexed):
-/// | Bits    | Meaning |
-/// |---------+---------|
-/// | 23 - 16 |         |
-/// | 15 - 08 |         |
-/// | 07 - 00 |         |
+///     1. via segment data
+///     2. or via a palette generator ({IPaletteGenerator}).
+/// Segment data contains 1 `uint256` each for red, green, and blue describing
+/// their intensity values along the colormap. Each `uint256` contains 24-bit
+/// words bitpacked together with the following structure (bits are
+/// right-indexed):
+///     | Bits      | Meaning                                              |
+///     | --------- | ---------------------------------------------------- |
+///     | `23 - 16` | Position in the colormap the segment begins from     |
+///     | `15 - 08` | Intensity of R, G, or B the previous segment ends at |
+///     | `07 - 00` | Intensity of R, G, or B the next segment starts at   |
+/// Given some position, the output will be computed via linear interpolations
+/// on the segment data for R, G, and B. A maximum of 10 of these segments fit
+/// within 256 bits, so up to 9 segments can be defined. If you need more
+/// granularity or a nonlinear palette function, you may implement
+/// {IPaletteGenerator} and define a colormap with that.
 interface IColormapRegistry {
     // -------------------------------------------------------------------------
     // Errors
@@ -41,7 +49,8 @@ interface IColormapRegistry {
     /// @notice Segment data that defines a colormap when read via piece-wise
     /// linear interpolation.
     /// @dev Each param contains 24-bit words, so each one may contain at most
-    /// 9 (24*10 - 1) segments.
+    /// 9 (24*10 - 1) segments. See {IColormapRegistry} for how the segment data
+    /// should be structured.
     /// @param r Segment data for red's color value along the colormap.
     /// @param g Segment data for green's color value along the colormap.
     /// @param b Segment data for blue's color value along the colormap.
@@ -104,6 +113,8 @@ interface IColormapRegistry {
 
     /// @notice Register a colormap with segment data that will be read via
     /// piece-wise linear interpolation.
+    /// @dev See {IColormapRegistry} for how the segment data should be
+    /// structured.
     /// @param _segmentData Segment data defining the colormap.
     function register(SegmentData memory _segmentData) external;
 
