@@ -295,7 +295,7 @@ contract ColormapRegistry is IColormapRegistry {
             _segmentData >>= 24;
         }
 
-        /// Retrieve the start and end of the identified segment.
+        // Retrieve the start and end of the identified segment.
         uint256 segmentStart = _segmentData & 0xFFFFFF;
         uint256 segmentEnd = (_segmentData >> 24) & 0xFFFFFF;
 
@@ -349,5 +349,58 @@ contract ColormapRegistry is IColormapRegistry {
     function _computeLinearInterpolationFPM(
         uint256 _segmentData,
         uint256 _position
-    ) internal pure returns (uint256) {}
+    ) internal pure returns (uint256) {
+        unchecked {
+            // We look until we find the segment with the greatest position less
+            // than `_position`.
+            while (
+                ((_segmentData >> 16) & 0xFF) *
+                    FIXED_POINT_COLOR_VALUE_SCALAR <=
+                _position
+            ) {
+                _segmentData >>= 24;
+            }
+
+            // Retrieve the start and end of the identified segment.
+            uint256 segmentStart = _segmentData & 0xFFFFFF;
+            uint256 segmentEnd = (_segmentData >> 24) & 0xFFFFFF;
+
+            // Retrieve start/end position w.r.t. the entire colormap and
+            // convert them to the 18 decimal fixed point number representation.
+            uint256 startPosition = ((segmentStart >> 16) & 0xFF) *
+                FIXED_POINT_COLOR_VALUE_SCALAR;
+            uint256 endPosition = ((segmentEnd >> 16) & 0xFF) *
+                FIXED_POINT_COLOR_VALUE_SCALAR;
+
+            // Retrieve start/end intensities and convert them to the 18 decimal
+            // fixed point number representation.
+            uint256 startIntensity = (segmentStart & 0xFF) *
+                FIXED_POINT_COLOR_VALUE_SCALAR;
+            uint256 endIntensity = ((segmentEnd >> 8) & 0xFF) *
+                FIXED_POINT_COLOR_VALUE_SCALAR;
+
+            // This will never underflow because we ensure the start segment's
+            // position is less than or equal to `_position`.
+            uint256 positionChange = _position - startPosition;
+
+            // This will never be 0 because we ensure each segment must increase
+            // in {ColormapRegistry.register} via
+            // {ColormapRegistry._checkSegmentDataValidity}.
+            uint256 segmentLength = endPosition - startPosition;
+
+            // Check if end intensity is larger to prevent under/overflowing (as
+            // well as to compute the correct value).
+            if (endIntensity >= startIntensity) {
+                return
+                    startIntensity +
+                    ((endIntensity - startIntensity) * positionChange) /
+                    segmentLength;
+            }
+
+            return
+                startIntensity -
+                ((startIntensity - endIntensity) * positionChange) /
+                segmentLength;
+        }
+    }
 }
