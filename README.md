@@ -124,7 +124,7 @@ To deploy to mainnet, run the following command:
 
 ```sh
 source .env # Load environment variables
-forge script script/deploy/Deploy.s.sol:Deploy -f mainnet --broadcast --verify
+forge script script/Deploy.s.sol:DeployScript -f mainnet --broadcast --verify --ledger -vvvv
 ```
 
 ## Credits
