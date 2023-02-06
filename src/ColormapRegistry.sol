@@ -30,10 +30,10 @@ contract ColormapRegistry is IColormapRegistry {
         // Revert if a colormap corresponding to `_colormapHash` has never been
         // set.
         if (
-            // Segment data is uninitialized.
-            ((segmentData.r == 0) ||
-                (segmentData.g == 0) ||
-                (segmentData.b == 0)) &&
+            // Segment data is uninitialized.  We don't need to check `g` and
+            // `b` because the segment data would've never been initialized if
+            // any of `r`, `g`, or `b` were 0.
+            segmentData.r == 0 &&
             // Palette generator is uninitialized.
             address(paletteGenerators[_colormapHash]) == address(0)
         ) {
@@ -198,10 +198,10 @@ contract ColormapRegistry is IColormapRegistry {
         // Revert if a colormap corresponding to `colormapHash` has already
         // been set.
         if (
-            // Segment data is initialized.
+            // Segment data is initialized. We don't need to check `g` and `b`
+            // because the segment data would've never been initialized if any
+            // of `r`, `g`, or `b` were 0.
             (segmentData.r > 0) ||
-            (segmentData.g > 0) ||
-            (segmentData.b > 0) ||
             // Palette generator is initialized.
             address(paletteGenerators[_colormapHash]) != address(0)
         ) {
@@ -222,15 +222,21 @@ contract ColormapRegistry is IColormapRegistry {
             revert SegmentDataInvalid(_segmentData);
         }
 
-        for (; _segmentData > 0; _segmentData >>= 24) {
-            uint256 position = (_segmentData >> 16) & 0xFF;
+        for (
+            // We shift `_segmentData` right by 24 because the first segment was
+            // read already.
+            uint256 partialSegmentData = _segmentData >> 24;
+            partialSegmentData > 0;
+            partialSegmentData >>= 24
+        ) {
+            uint256 position = (partialSegmentData >> 16) & 0xFF;
 
             // Revert if the position did not increase.
             if (position <= prevPosition) {
                 revert SegmentDataInvalid(_segmentData);
             }
 
-            prevPosition = (_segmentData >> 16) & 0xFF;
+            prevPosition = (partialSegmentData >> 16) & 0xFF;
         }
 
         // Revert if the colormap isn't defined til the end.
@@ -291,7 +297,7 @@ contract ColormapRegistry is IColormapRegistry {
     {
         // We loop until we find the segment with the greatest position less
         // than `_position`.
-        while ((_segmentData >> 16) & 0xFF <= _position) {
+        while ((_segmentData >> 40) & 0xFF < _position) {
             _segmentData >>= 24;
         }
 
@@ -354,8 +360,7 @@ contract ColormapRegistry is IColormapRegistry {
             // We look until we find the segment with the greatest position less
             // than `_position`.
             while (
-                ((_segmentData >> 16) & 0xFF) *
-                    FIXED_POINT_COLOR_VALUE_SCALAR <=
+                ((_segmentData >> 16) & 0xFF) * FIXED_POINT_COLOR_VALUE_SCALAR <
                 _position
             ) {
                 _segmentData >>= 24;
