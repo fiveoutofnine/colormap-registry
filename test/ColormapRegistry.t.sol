@@ -9,6 +9,21 @@ contract ColormapRegistryTest is BaseTest {
     // -------------------------------------------------------------------------
     // Register with palette generator
     // -------------------------------------------------------------------------
+    /// @notice Test that registering the same color map fails.
+    function test_register_ViaPaletteGeneratorAddSameColormapTwice_Fails()
+        public
+    {
+        // The ``Spring'' colormap was already added during set up.
+        // Expect revert with the hash of the ``Spring'' colormap.
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IColormapRegistry.ColormapAlreadyExists.selector,
+                SPRING_HASH
+            )
+        );
+        colormapRegistry.register(SPRING_PALETTE_GENERATOR);
+    }
+
     // -------------------------------------------------------------------------
     // Register with segment data
     // -------------------------------------------------------------------------
