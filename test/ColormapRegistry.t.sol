@@ -37,8 +37,8 @@ contract ColormapRegistryTest is BaseTest {
         uint256 _startPosition
     ) public {
         // The following segment is undefined because bits 16-23 are not 0.
-        vm.assume(_startPosition < 256 && _startPosition != 0);
-        uint256 segmentDataUndefinedAtStart = 0xFFFFFF00FFFF &
+        _startPosition = bound(_startPosition, 1, 255);
+        uint256 segmentDataUndefinedAtStart = 0xFFFFFF00FFFF |
             (_startPosition << 16);
 
         IColormapRegistry.SegmentData memory segmentData;
@@ -108,8 +108,8 @@ contract ColormapRegistryTest is BaseTest {
         uint256 _endPosition
     ) public {
         // The following segment is undefined because bits 40-47 are not 0.
-        vm.assume(_endPosition < 256 && _endPosition != 255);
-        uint256 segmentDataUndefinedAtEnd = 0x00FFFFFFFFFF &
+        _endPosition = bound(_endPosition, 0, 254);
+        uint256 segmentDataUndefinedAtEnd = 0x00FFFF00FFFF |
             (_endPosition << 40);
 
         IColormapRegistry.SegmentData memory segmentData;
