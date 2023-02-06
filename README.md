@@ -15,7 +15,7 @@ There are 2 ways to define a colormap:
 1. via segment data
 2. or via a [**palette generator**](https://github.com/fiveoutofnine/colormap-registry/blob/main/src/interfaces/IPaletteGenerator.sol).
 
-Segment data contains 1 `uint256` each for red, green, and blue describing their intensity values along the colormap. Each `uint256` contains 24-bit words bitpacked together, which has the following structure (bits are right-indexed):
+Segment data contains 1 `uint256` each for red, green, and blue describing their intensity values along the colormap. Each `uint256` contains 24-bit words bitpacked together with the following structure (bits are right-indexed):
 
 | Bits      | Meaning                                              |
 | --------- | ---------------------------------------------------- |
@@ -25,7 +25,7 @@ Segment data contains 1 `uint256` each for red, green, and blue describing their
 
 Given some position, the output will be computed via linear interpolations on the segment data for R, G, and B. A maximum of 10 of these segments fit within 256 bits, so up to 9 segments can be defined.
 
-If you need more granularity or a nonlinear palette function, you may implement [`IPaletteGenerator`](https://github.com/fiveoutofnine/colormap-registry/blob/main/src/interfaces/IPaletteGenerator.sol),.
+If you need more granularity or a nonlinear palette function, you may implement [`IPaletteGenerator`](https://github.com/fiveoutofnine/colormap-registry/blob/main/src/interfaces/IPaletteGenerator.sol) and define a colormap with that.
 
 ## Usage
 
