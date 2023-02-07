@@ -19,7 +19,7 @@ contract ColormapRegistryTest is BaseTest {
         vm.expectRevert(
             abi.encodeWithSelector(
                 IColormapRegistry.ColormapAlreadyExists.selector,
-                gnuplotHash
+                gnuPlotHash
             )
         );
         colormapRegistry.register(gnuPlotPaletteGenerator);
@@ -219,7 +219,7 @@ contract ColormapRegistryTest is BaseTest {
     {
         vm.assume(
             _colormapHash != SPRING_HASH &&
-                _colormapHash != gnuplotHash &&
+                _colormapHash != gnuPlotHash &&
                 _colormapHash != JET_HASH
         );
 
@@ -242,7 +242,7 @@ contract ColormapRegistryTest is BaseTest {
         _position = bound(_position, 0, 1e18);
 
         (uint256 r, uint256 g, uint256 b) = colormapRegistry.getValue(
-            gnuplotHash,
+            gnuPlotHash,
             _position
         );
         assertTrue(r <= 1e18);
@@ -295,7 +295,7 @@ contract ColormapRegistryTest is BaseTest {
     ) public {
         vm.assume(
             _colormapHash != SPRING_HASH &&
-                _colormapHash != gnuplotHash &&
+                _colormapHash != gnuPlotHash &&
                 _colormapHash != JET_HASH
         );
 
@@ -314,7 +314,7 @@ contract ColormapRegistryTest is BaseTest {
     function test_getValueAsUint8_FromPaletteGenerator_PassesAllPositions(
         uint8 _position
     ) public view {
-        colormapRegistry.getValueAsUint8(gnuplotHash, _position);
+        colormapRegistry.getValueAsUint8(gnuPlotHash, _position);
     }
 
     /// @notice Test that all positions pass when read from the ``Spring''
@@ -346,7 +346,7 @@ contract ColormapRegistryTest is BaseTest {
     ) public {
         vm.assume(
             _colormapHash != SPRING_HASH &&
-                _colormapHash != gnuplotHash &&
+                _colormapHash != gnuPlotHash &&
                 _colormapHash != JET_HASH
         );
 
@@ -365,7 +365,7 @@ contract ColormapRegistryTest is BaseTest {
     function test_getValueAsHexString_FromPaletteGenerator_PassesAllPositions(
         uint8 _position
     ) public view {
-        colormapRegistry.getValueAsHexString(gnuplotHash, _position);
+        colormapRegistry.getValueAsHexString(gnuPlotHash, _position);
     }
 
     /// @notice Test that all positions pass when read from the ``Spring''

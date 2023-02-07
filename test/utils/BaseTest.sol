@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import {console, Test} from "forge-std/Test.sol";
+import {Test} from "forge-std/Test.sol";
 
 import {ColormapRegistry} from "@/contracts/ColormapRegistry.sol";
 import {GnuPlotPaletteGenerator} from "@/contracts/GnuPlotPaletteGenerator.sol";
@@ -67,12 +67,16 @@ contract BaseTest is Test {
     /// @notice An instance of the `gnuplot` palette generator contract.
     GnuPlotPaletteGenerator public gnuPlotPaletteGenerator;
 
+    /// @notice A second instance of the `gnuplot` palette generator contract.
+    /// @dev This is used to benchmark the `register` function.
+    GnuPlotPaletteGenerator public samplePaletteGenerator;
+
     // -------------------------------------------------------------------------
     // Storage
     // -------------------------------------------------------------------------
 
     /// @notice Hash of the ``gnuplot` colormap deployed in {BaseTest.setUp}.
-    bytes32 public gnuplotHash;
+    bytes32 public gnuPlotHash;
 
     // -------------------------------------------------------------------------
     // Set up
@@ -107,6 +111,9 @@ contract BaseTest is Test {
         colormapRegistry.register(gnuPlotPaletteGenerator);
 
         // Set hash.
-        gnuplotHash = keccak256(abi.encodePacked(gnuPlotPaletteGenerator));
+        gnuPlotHash = keccak256(abi.encodePacked(gnuPlotPaletteGenerator));
+
+        // Deploy a second instance of the `gnuplot` palette generator contract.
+        samplePaletteGenerator = new GnuPlotPaletteGenerator();
     }
 }
