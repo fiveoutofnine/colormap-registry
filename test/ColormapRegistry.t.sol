@@ -3,6 +3,7 @@ pragma solidity ^0.8.17;
 
 import {BaseTest} from "./utils/BaseTest.sol";
 import {IColormapRegistry} from "@/contracts/interfaces/IColormapRegistry.sol";
+import {IPaletteGenerator} from "@/contracts/interfaces/IPaletteGenerator.sol";
 import {GnuPlotPaletteGenerator} from "@/contracts/GnuPlotPaletteGenerator.sol";
 
 /// @notice Unit tests for {ColormapRegistry}, organized by functions.

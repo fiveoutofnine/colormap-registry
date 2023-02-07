@@ -34,9 +34,10 @@ contract GnuPlotPaletteGeneratorTest is Test {
     /// @notice Test that querying the red portion of the colormap with a
     /// position greater than 1e18 fails.
     /// @param _position Position in the colormap.
-    function test_r_positionGreaterThanE18_Fails(uint256 _position) public {
+    function test_r_PositionGreaterThanE18_Fails(uint256 _position) public {
         vm.assume(_position > 1e18);
 
+        // Expect revert because `_position` is greater than 1e18.
         vm.expectRevert(
             abi.encodeWithSelector(
                 IPaletteGenerator.InvalidPosition.selector,
@@ -59,9 +60,10 @@ contract GnuPlotPaletteGeneratorTest is Test {
     /// @notice Test that querying the green portion of the colormap with a
     /// position greater than 1e18 fails.
     /// @param _position Position in the colormap.
-    function test_g_positionGreaterThanE18_Fails(uint256 _position) public {
+    function test_g_PositionGreaterThanE18_Fails(uint256 _position) public {
         vm.assume(_position > 1e18);
 
+        // Expect revert because `_position` is greater than 1e18.
         vm.expectRevert(
             abi.encodeWithSelector(
                 IPaletteGenerator.InvalidPosition.selector,
@@ -84,9 +86,10 @@ contract GnuPlotPaletteGeneratorTest is Test {
     /// @notice Test that querying the blue portion of the colormap with a
     /// position greater than 1e18 fails.
     /// @param _position Position in the colormap.
-    function test_b_positionGreaterThanE18_Fails(uint256 _position) public {
+    function test_b_PositionGreaterThanE18_Fails(uint256 _position) public {
         vm.assume(_position > 1e18);
 
+        // Expect revert because `_position` is greater than 1e18.
         vm.expectRevert(
             abi.encodeWithSelector(
                 IPaletteGenerator.InvalidPosition.selector,
