@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import {console} from "forge-std/Test.sol";
 import {BaseTest} from "./utils/BaseTest.sol";
 import {IColormapRegistry} from "@/contracts/interfaces/IColormapRegistry.sol";
 import {GnuPlotPaletteGenerator} from "@/contracts/GnuPlotPaletteGenerator.sol";
@@ -218,7 +217,11 @@ contract ColormapRegistryTest is BaseTest {
     function test_getValue_ColormapHashDoesntExist_Fails(bytes32 _colormapHash)
         public
     {
-        vm.assume(_colormapHash != SPRING_HASH && _colormapHash != gnuplotHash);
+        vm.assume(
+            _colormapHash != SPRING_HASH &&
+                _colormapHash != gnuplotHash &&
+                _colormapHash != JET_HASH
+        );
 
         // Expect revert because the colormap hash doesn't exist.
         vm.expectRevert(
@@ -248,16 +251,32 @@ contract ColormapRegistryTest is BaseTest {
     }
 
     /// @notice Test that values are within bounds for all positions when read
-    /// from segment data.
+    /// from the ``Spring'' segment data.
     /// @param _position Position in the colormap.
-    function test_getValue_FromSegmentData_ValueIsWithinBounds(
+    function test_getValue_FromSpringSegmentData_ValueIsWithinBounds(
         uint256 _position
     ) public {
         _position = bound(_position, 0, 1e18);
-        console.log(_position);
 
         (uint256 r, uint256 g, uint256 b) = colormapRegistry.getValue(
             SPRING_HASH,
+            _position
+        );
+        assertTrue(r <= 1e18);
+        assertTrue(g <= 1e18);
+        assertTrue(b <= 1e18);
+    }
+
+    /// @notice Test that values are within bounds for all positions when read
+    /// from the ``Jet'' segment data.
+    /// @param _position Position in the colormap.
+    function test_getValue_FromJetSegmentData_ValueIsWithinBounds(
+        uint256 _position
+    ) public {
+        _position = bound(_position, 0, 1e18);
+
+        (uint256 r, uint256 g, uint256 b) = colormapRegistry.getValue(
+            JET_HASH,
             _position
         );
         assertTrue(r <= 1e18);
@@ -274,7 +293,11 @@ contract ColormapRegistryTest is BaseTest {
     function test_getValueAsUint8_ColormapHashDoesntExist_Fails(
         bytes32 _colormapHash
     ) public {
-        vm.assume(_colormapHash != SPRING_HASH && _colormapHash != gnuplotHash);
+        vm.assume(
+            _colormapHash != SPRING_HASH &&
+                _colormapHash != gnuplotHash &&
+                _colormapHash != JET_HASH
+        );
 
         // Expect revert because the colormap hash doesn't exist.
         vm.expectRevert(
@@ -288,18 +311,78 @@ contract ColormapRegistryTest is BaseTest {
 
     /// @notice Test that all positions pass when read from a palette generator.
     /// @param _position Position in the colormap.
-    function test_getValue_FromPaletteGenerator_PassesAllPositions(
+    function test_getValueAsUint8_FromPaletteGenerator_PassesAllPositions(
         uint8 _position
     ) public view {
         colormapRegistry.getValueAsUint8(gnuplotHash, _position);
     }
 
-    /// @notice Test that all positions pass when read from segment data.
+    /// @notice Test that all positions pass when read from the ``Spring''
+    /// segment data.
     /// @param _position Position in the colormap.
-    function test_getValue_FromSegmentData_PassesAllPositions(uint8 _position)
-        public
-        view
-    {
+    function test_getValueAsUint8_FromSpringSegmentData_PassesAllPositions(
+        uint8 _position
+    ) public view {
         colormapRegistry.getValueAsUint8(SPRING_HASH, _position);
+    }
+
+    /// @notice Test that all positions pass when read from the ``Jet''
+    /// segment data.
+    /// @param _position Position in the colormap.
+    function test_getValueAsUint8_FromJetSegmentData_PassesAllPositions(
+        uint8 _position
+    ) public view {
+        colormapRegistry.getValueAsUint8(JET_HASH, _position);
+    }
+
+    // -------------------------------------------------------------------------
+    // Get value as hexstring
+    // -------------------------------------------------------------------------
+
+    /// @notice Test that the colormap hash must exist.
+    /// @param _colormapHash Hash of some nonexistant colormap.
+    function test_getValueAsHexString_ColormapHashDoesntExist_Fails(
+        bytes32 _colormapHash
+    ) public {
+        vm.assume(
+            _colormapHash != SPRING_HASH &&
+                _colormapHash != gnuplotHash &&
+                _colormapHash != JET_HASH
+        );
+
+        // Expect revert because the colormap hash doesn't exist.
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IColormapRegistry.ColormapDoesNotExist.selector,
+                _colormapHash
+            )
+        );
+        colormapRegistry.getValueAsHexString(_colormapHash, 0);
+    }
+
+    /// @notice Test that all positions pass when read from a palette generator.
+    /// @param _position Position in the colormap.
+    function test_getValueAsHexString_FromPaletteGenerator_PassesAllPositions(
+        uint8 _position
+    ) public view {
+        colormapRegistry.getValueAsHexString(gnuplotHash, _position);
+    }
+
+    /// @notice Test that all positions pass when read from the ``Spring''
+    /// segment data.
+    /// @param _position Position in the colormap.
+    function test_getValueAsHexString_FromSpringSegmentData_PassesAllPositions(
+        uint8 _position
+    ) public view {
+        colormapRegistry.getValueAsHexString(SPRING_HASH, _position);
+    }
+
+    /// @notice Test that all positions pass when read from the ``Jet''
+    /// segment data.
+    /// @param _position Position in the colormap.
+    function test_getValueAsHexString_FromJetSegmentData_PassesAllPositions(
+        uint8 _position
+    ) public view {
+        colormapRegistry.getValueAsHexString(JET_HASH, _position);
     }
 }

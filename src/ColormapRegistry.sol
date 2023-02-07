@@ -357,7 +357,7 @@ contract ColormapRegistry is IColormapRegistry {
         uint256 _position
     ) internal pure returns (uint256) {
         unchecked {
-            // We need to normalize `_position` to be in [0, 0xFF] pre-scaling.
+            // We need to truncate `_position` to be in [0, 0xFF] pre-scaling.
             _position = _position > 0xFF * FIXED_POINT_COLOR_VALUE_SCALAR
                 ? 0xFF * FIXED_POINT_COLOR_VALUE_SCALAR
                 : _position;

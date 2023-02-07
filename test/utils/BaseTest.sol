@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import {Test} from "forge-std/Test.sol";
+import {console, Test} from "forge-std/Test.sol";
 
 import {ColormapRegistry} from "@/contracts/ColormapRegistry.sol";
 import {GnuPlotPaletteGenerator} from "@/contracts/GnuPlotPaletteGenerator.sol";
@@ -21,6 +21,11 @@ contract BaseTest is Test {
     /// @dev `keccak256(abi.encodePacked(0xFFFFFF00FFFF, 0xFFFFFF000000, 0xFF000000FFFF))`
     bytes32 constant SPRING_HASH =
         0xc1806ea961848ac00c1f20aa0611529da522a7bd125a3036fe4641b07ee5c61c;
+
+    /// @notice Hash of the segment data corresponding to the ``Jet'' colormap.
+    /// @dev `keccak256(abi.encodePacked(0xFF7F7FE2FFFFA8FFFF590000000000, 0xFF0000E80000A3FFFF5FFFFF1F0000000000, 0xFF0000A5000056FFFF1CFFFF007F7F))`
+    bytes32 constant JET_HASH =
+        0x026736ef8439ebcf8e7b8006bf8cb7482ced84d71b900407a9ed63e1b7bfe234;
 
     /// @notice The simplest, valid segment.
     uint256 constant SIMPLE_VALID_SEGMENT = 0xFFFFFF00FFFF;
@@ -86,6 +91,15 @@ contract BaseTest is Test {
         springSegmentData.g = 0xFFFFFF000000;
         springSegmentData.b = 0xFF000000FFFF;
         colormapRegistry.register(springSegmentData);
+
+        // Add ``Jet'' colormap to the registry via segment data definition. It
+        // has a more complex structure than ``Spring,'' so it'll be useful for
+        // testing the ``get value'' functions.
+        IColormapRegistry.SegmentData memory jetSegmentData;
+        jetSegmentData.r = 0xFF7F7FE2FFFFA8FFFF590000000000;
+        jetSegmentData.g = 0xFF0000E80000A3FFFF5FFFFF1F0000000000;
+        jetSegmentData.b = 0xFF0000A5000056FFFF1CFFFF007F7F;
+        colormapRegistry.register(jetSegmentData);
 
         // Add `gnuplot` colormap to the registry via palette generator
         // definition.
