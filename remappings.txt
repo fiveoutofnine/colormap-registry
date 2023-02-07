@@ -1,4 +1,6 @@
 forge-std/=lib/forge-std/src/
+solmate/=lib/solmate/src/
+trig/=lib/solidity-trigonometry/src/
 @/script/=script/
 @/contracts/=src/
 @/test/=test/
