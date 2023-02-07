@@ -6,7 +6,7 @@ The motivation for this was to provide an easy way to query a palette of colors 
 
 ### Colormap identification
 
-Colormaps on the registry are content addressed. This means colormaps are identified via the hash of their definition (see `_computeColormapHash` in [`ColormapRegistry`](<(https://github.com/fiveoutofnine/colormap-registry/blob/main/src/ColormapRegistry.sol)>)), rather than a separate ID or name. It's not the optimal DX, but this way, the registry runs permissionlessly and immutably without an owner.
+Colormaps on the registry are content addressed. This means colormaps are identified via the hash of their definition (see `_computeColormapHash` in [`ColormapRegistry`](https://github.com/fiveoutofnine/colormap-registry/blob/main/src/ColormapRegistry.sol), rather than a separate ID or name. It's not the optimal DX, but this way, the registry runs permissionlessly and immutably without an owner.
 
 ### Colormap definition
 
