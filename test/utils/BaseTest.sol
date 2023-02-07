@@ -59,6 +59,16 @@ contract BaseTest is Test {
     /// @notice The colormap registry contract.
     ColormapRegistry public colormapRegistry;
 
+    /// @notice An instance of the `gnuplot` palette generator contract.
+    GnuPlotPaletteGenerator public gnuPlotPaletteGenerator;
+
+    // -------------------------------------------------------------------------
+    // Storage
+    // -------------------------------------------------------------------------
+
+    /// @notice Hash of the ``gnuplot` colormap deployed in {BaseTest.setUp}.
+    bytes32 public gnuplotHash;
+
     // -------------------------------------------------------------------------
     // Set up
     // -------------------------------------------------------------------------
@@ -75,6 +85,10 @@ contract BaseTest is Test {
 
         // Add `gnuplot` colormap to the registry via palette generator
         // definition.
-        colormapRegistry.register(new GnuPlotPaletteGenerator());
+        gnuPlotPaletteGenerator = new GnuPlotPaletteGenerator();
+        colormapRegistry.register(gnuPlotPaletteGenerator);
+
+        // Set hash.
+        gnuplotHash = keccak256(abi.encodePacked(gnuPlotPaletteGenerator));
     }
 }

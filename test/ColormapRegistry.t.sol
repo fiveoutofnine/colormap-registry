@@ -3,22 +3,63 @@ pragma solidity ^0.8.17;
 
 import {BaseTest} from "./utils/BaseTest.sol";
 import {IColormapRegistry} from "@/contracts/interfaces/IColormapRegistry.sol";
+import {GnuPlotPaletteGenerator} from "@/contracts/GnuPlotPaletteGenerator.sol";
 
 /// @notice Unit tests for {ColormapRegistry}, organized by functions.
 contract ColormapRegistryTest is BaseTest {
     // -------------------------------------------------------------------------
     // Register with palette generator
     // -------------------------------------------------------------------------
-    /// @notice Test that registering the same color map fails.
+
+    /// @notice Test that registering the same color map via a palette generator
+    /// fails.
     function test_register_ViaPaletteGeneratorAddSameColormapTwice_Fails()
         public
-    {}
+    {
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IColormapRegistry.ColormapAlreadyExists.selector,
+                gnuplotHash
+            )
+        );
+        colormapRegistry.register(gnuPlotPaletteGenerator);
+    }
+
+    /// @notice Test events emitted and storage variable changes upon
+    /// registering a colormap via palette generator.
+    function test_register_ViaPaletteGenerator() public {
+        // Deploy a `gnuplot` colormap.
+        GnuPlotPaletteGenerator newGnuPlotPaletteGenerator = new GnuPlotPaletteGenerator();
+        bytes32 colormapHash = keccak256(
+            abi.encodePacked(newGnuPlotPaletteGenerator)
+        );
+
+        // The palette generator is unset.
+        {
+            assertEq(
+                address(colormapRegistry.paletteGenerators(colormapHash)),
+                address(0)
+            );
+        }
+
+        vm.expectEmit(true, true, true, true);
+        emit RegisterColormap(colormapHash, newGnuPlotPaletteGenerator);
+        colormapRegistry.register(newGnuPlotPaletteGenerator);
+
+        // The palette generator was set.
+        {
+            assertEq(
+                address(colormapRegistry.paletteGenerators(colormapHash)),
+                address(newGnuPlotPaletteGenerator)
+            );
+        }
+    }
 
     // -------------------------------------------------------------------------
     // Register with segment data
     // -------------------------------------------------------------------------
 
-    /// @notice Test that registering the same color map fails.
+    /// @notice Test that registering the same color map via segment data fails.
     function test_register_ViaSegmentDataAddSameColormapTwice_Fails() public {
         // The ``Spring'' colormap was already added during set up.
         IColormapRegistry.SegmentData memory springSegmentData;
