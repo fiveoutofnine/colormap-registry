@@ -73,6 +73,10 @@ contract BaseTest is Test {
     // Set up
     // -------------------------------------------------------------------------
 
+    /// @notice Set up the test contract by deploying an instance of
+    /// {ColormapRegistry}. Then, the ``Spring'' colormap is added via a segment
+    /// data definition, and the `gnuplot` colormap is added via a palette
+    /// generator definition.
     function setUp() public {
         colormapRegistry = new ColormapRegistry();
 
