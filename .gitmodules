@@ -5,3 +5,6 @@
 [submodule "lib/solmate"]
 	path = lib/solmate
 	url = https://github.com/transmissions11/solmate
+[submodule "lib/solidity-trigonometry"]
+	path = lib/solidity-trigonometry
+	url = https://github.com/mds1/solidity-trigonometry

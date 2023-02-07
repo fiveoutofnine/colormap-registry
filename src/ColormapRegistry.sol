@@ -22,7 +22,7 @@ contract ColormapRegistry is IColormapRegistry {
     // Modifiers
     // -------------------------------------------------------------------------
 
-    /// @notice Reverts a function if a colormap does not exist.
+    /// @dev Reverts a function if a colormap does not exist.
     /// @param _colormapHash Hash of the colormap's definition.
     modifier colormapExists(bytes32 _colormapHash) {
         SegmentData memory segmentData = segments[_colormapHash];

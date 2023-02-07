@@ -4,6 +4,7 @@ pragma solidity ^0.8.17;
 import {Test} from "forge-std/Test.sol";
 
 import {ColormapRegistry} from "@/contracts/ColormapRegistry.sol";
+import {GnuPlotPaletteGenerator} from "@/contracts/GnuPlotPaletteGenerator.sol";
 import {IColormapRegistry} from "@/contracts/interfaces/IColormapRegistry.sol";
 import {IPaletteGenerator} from "@/contracts/interfaces/IPaletteGenerator.sol";
 
@@ -65,11 +66,15 @@ contract BaseTest is Test {
     function setUp() public {
         colormapRegistry = new ColormapRegistry();
 
-        // Add ``Spring'' colormap to colormap via segment data definition.
+        // Add ``Spring'' colormap to the registry via segment data definition.
         IColormapRegistry.SegmentData memory springSegmentData;
         springSegmentData.r = 0xFFFFFF00FFFF;
         springSegmentData.g = 0xFFFFFF000000;
         springSegmentData.b = 0xFF000000FFFF;
         colormapRegistry.register(springSegmentData);
+
+        // Add `gnuplot` colormap to the registry via palette generator
+        // definition.
+        colormapRegistry.register(new GnuPlotPaletteGenerator());
     }
 }
