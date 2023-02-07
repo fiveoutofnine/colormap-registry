@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
+import {console} from "forge-std/Test.sol";
 import {BaseTest} from "./utils/BaseTest.sol";
 import {IColormapRegistry} from "@/contracts/interfaces/IColormapRegistry.sol";
 import {GnuPlotPaletteGenerator} from "@/contracts/GnuPlotPaletteGenerator.sol";
@@ -252,8 +253,8 @@ contract ColormapRegistryTest is BaseTest {
     function test_getValue_FromSegmentData_ValueIsWithinBounds(
         uint256 _position
     ) public {
-        // TODO: make this work for 1e18
-        _position = bound(_position, 0, 1e17);
+        _position = bound(_position, 0, 1e18);
+        console.log(_position);
 
         (uint256 r, uint256 g, uint256 b) = colormapRegistry.getValue(
             SPRING_HASH,
