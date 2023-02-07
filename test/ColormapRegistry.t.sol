@@ -207,4 +207,98 @@ contract ColormapRegistryTest is BaseTest {
             assertEq(b, SIMPLE_VALID_SEGMENT);
         }
     }
+
+    // -------------------------------------------------------------------------
+    // Get value
+    // -------------------------------------------------------------------------
+
+    /// @notice Test that the colormap hash must exist.
+    /// @param _colormapHash Hash of some nonexistant colormap.
+    function test_getValue_ColormapHashDoesntExist_Fails(bytes32 _colormapHash)
+        public
+    {
+        vm.assume(_colormapHash != SPRING_HASH && _colormapHash != gnuplotHash);
+
+        // Expect revert because the colormap hash doesn't exist.
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IColormapRegistry.ColormapDoesNotExist.selector,
+                _colormapHash
+            )
+        );
+        colormapRegistry.getValue(_colormapHash, 0);
+    }
+
+    /// @notice Test that values are within bounds for all positions when read
+    /// from a palette generator.
+    /// @param _position Position in the colormap.
+    function test_getValue_FromPaletteGenerator_ValueIsWithinBounds(
+        uint256 _position
+    ) public {
+        _position = bound(_position, 0, 1e18);
+
+        (uint256 r, uint256 g, uint256 b) = colormapRegistry.getValue(
+            gnuplotHash,
+            _position
+        );
+        assertTrue(r <= 1e18);
+        assertTrue(g <= 1e18);
+        assertTrue(b <= 1e18);
+    }
+
+    /// @notice Test that values are within bounds for all positions when read
+    /// from segment data.
+    /// @param _position Position in the colormap.
+    function test_getValue_FromSegmentData_ValueIsWithinBounds(
+        uint256 _position
+    ) public {
+        // TODO: make this work for 1e18
+        _position = bound(_position, 0, 1e17);
+
+        (uint256 r, uint256 g, uint256 b) = colormapRegistry.getValue(
+            SPRING_HASH,
+            _position
+        );
+        assertTrue(r <= 1e18);
+        assertTrue(g <= 1e18);
+        assertTrue(b <= 1e18);
+    }
+
+    // -------------------------------------------------------------------------
+    // Get value as `uint8`
+    // -------------------------------------------------------------------------
+
+    /// @notice Test that the colormap hash must exist.
+    /// @param _colormapHash Hash of some nonexistant colormap.
+    function test_getValueAsUint8_ColormapHashDoesntExist_Fails(
+        bytes32 _colormapHash
+    ) public {
+        vm.assume(_colormapHash != SPRING_HASH && _colormapHash != gnuplotHash);
+
+        // Expect revert because the colormap hash doesn't exist.
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IColormapRegistry.ColormapDoesNotExist.selector,
+                _colormapHash
+            )
+        );
+        colormapRegistry.getValueAsUint8(_colormapHash, 0);
+    }
+
+    /// @notice Test that all positions pass when read from a palette generator.
+    /// @param _position Position in the colormap.
+    function test_getValue_FromPaletteGenerator_PassesAllPositions(
+        uint8 _position
+    ) public view {
+        colormapRegistry.getValueAsUint8(gnuplotHash, _position);
+    }
+
+    /// @notice Test that all positions pass when read from segment data.
+    /// @param _position Position in the colormap.
+    function test_getValue_FromSegmentData_PassesAllPositions(uint8 _position)
+        public
+        view
+    {
+        colormapRegistry.getValueAsUint8(SPRING_HASH, _position);
+    }
 }

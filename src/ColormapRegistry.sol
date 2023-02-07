@@ -360,7 +360,7 @@ contract ColormapRegistry is IColormapRegistry {
             // We look until we find the segment with the greatest position less
             // than `_position`.
             while (
-                ((_segmentData >> 49) & 0xFF) * FIXED_POINT_COLOR_VALUE_SCALAR <
+                ((_segmentData >> 40) & 0xFF) * FIXED_POINT_COLOR_VALUE_SCALAR <
                 _position
             ) {
                 _segmentData >>= 24;

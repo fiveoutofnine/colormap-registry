@@ -33,6 +33,7 @@ contract GnuPlotPaletteGeneratorTest is Test {
 
     /// @notice Test that querying the red portion of the colormap with a
     /// position greater than 1e18 fails.
+    /// @param _position Position in the colormap.
     function test_r_positionGreaterThanE18_Fails(uint256 _position) public {
         vm.assume(_position > 1e18);
 
@@ -47,6 +48,7 @@ contract GnuPlotPaletteGeneratorTest is Test {
 
     /// @notice Test that querying the red portion of the colormap yields a 18
     /// decimal fixed-point number in [0, 1].
+    /// @param _position Position in the colormap.
     function test_r(uint256 _position) public {
         _position = bound(_position, 0, 1e18);
 
@@ -56,6 +58,7 @@ contract GnuPlotPaletteGeneratorTest is Test {
 
     /// @notice Test that querying the green portion of the colormap with a
     /// position greater than 1e18 fails.
+    /// @param _position Position in the colormap.
     function test_g_positionGreaterThanE18_Fails(uint256 _position) public {
         vm.assume(_position > 1e18);
 
@@ -70,6 +73,7 @@ contract GnuPlotPaletteGeneratorTest is Test {
 
     /// @notice Test that querying the green portion of the colormap yields a 18
     /// decimal fixed-point number in [0, 1].
+    /// @param _position Position in the colormap.
     function test_g(uint256 _position) public {
         _position = bound(_position, 0, 1e18);
 
@@ -79,6 +83,7 @@ contract GnuPlotPaletteGeneratorTest is Test {
 
     /// @notice Test that querying the blue portion of the colormap with a
     /// position greater than 1e18 fails.
+    /// @param _position Position in the colormap.
     function test_b_positionGreaterThanE18_Fails(uint256 _position) public {
         vm.assume(_position > 1e18);
 
@@ -93,6 +98,7 @@ contract GnuPlotPaletteGeneratorTest is Test {
 
     /// @notice Test that querying the blue portion of the colormap yields a 18
     /// decimal fixed-point number in [0, 1].
+    /// @param _position Position in the colormap.
     function test_b(uint256 _position) public {
         _position = bound(_position, 0, 1e18);
 
