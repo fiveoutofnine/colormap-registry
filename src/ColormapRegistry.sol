@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
+import "@/contracts/utils/Constants.sol";
 import {IColormapRegistry} from "@/contracts/interfaces/IColormapRegistry.sol";
 import {IPaletteGenerator} from "@/contracts/interfaces/IPaletteGenerator.sol";
-import "@/contracts/utils/Constants.sol";
 
 /// @title An on-chain registry for colormaps.
 /// @author fiveoutofnine
