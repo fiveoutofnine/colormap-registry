@@ -37,7 +37,10 @@ contract GnuPlotPaletteGenerator is IPaletteGenerator {
         isValidPosition(_position)
         returns (uint256)
     {
-        return _position.sqrt();
+        unchecked {
+            // We multiply by 1e9 to maintain the scale.
+            return _position.sqrt() * 1e9;
+        }
     }
 
     /// @inheritdoc IPaletteGenerator
@@ -59,8 +62,11 @@ contract GnuPlotPaletteGenerator is IPaletteGenerator {
     {
         unchecked {
             // The multiplication won't overflow because the `isValidPosition`
-            // modifier checks that `_position` is less than 1e18.
-            int256 value = Trigonometry.sin(_position * Trigonometry.TWO_PI);
+            // modifier checks that `_position` is less than 1e18. Also, we
+            // divide by 1e18 to maintain the scale.
+            int256 value = Trigonometry.sin(
+                (_position * Trigonometry.TWO_PI) / 1e18
+            );
 
             return value < 0 ? 0 : uint256(value);
         }
