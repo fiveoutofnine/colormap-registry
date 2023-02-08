@@ -19,7 +19,7 @@ contract PrintColormap is Script {
 
     /// @notice Hash of the colormap to print.
     /// @dev Replace this.
-    bytes32 constant COLORMAP_HASH = bytes(0);
+    bytes32 constant COLORMAP_HASH = bytes32(0);
 
     // -------------------------------------------------------------------------
     // Script `run()`
