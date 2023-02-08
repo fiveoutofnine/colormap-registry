@@ -130,3 +130,5 @@ forge script script/Deploy.s.sol:DeployScript -f mainnet --broadcast --verify --
 ## Credits
 
 This project was built by [**fiveoutofnine**](https://twitter.com/fiveoutofnine) for [**Curta**](https://curta.wtf).
+
+The colormaps added in [`DeployScript`](https://github.com/fiveoutofnine/colormap-registry/blob/main/script/Deploy.s.sol) were adapted from [**matplotlib**](https://github.com/matplotlib/matplotlib) via [`generate_cmaps.py`](https://github.com/fiveoutofnine/colormap-registry/blob/main/generate_cmaps.py).
