@@ -17,6 +17,7 @@ number_underscore = "thousands"
 
 [rpc_endpoints]
 mainnet = "${RPC_URL_MAINNET}"
+goerli = "${RPC_URL_GOERLI}"
 
 [etherscan]
 mainnet = {key = "${ETHERSCAN_KEY}"}
