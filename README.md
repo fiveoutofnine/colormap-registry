@@ -2,7 +2,7 @@
 
 An on-chain registry for colormaps.
 
-The motivation for this was to provide an easy way to query a palette of colors based on some value. One can [**write util functions**](https://twitter.com/fiveoutofnine/status/1584932730579865600) to generate colors based on some values, but without a registry, the output is quite primitive. [`ColormapRegistry`](https://github.com/fiveoutofnine/colormap-registry/blob/main/src/ColormapRegistry.sol) was implemented to allow for _any_ possible colormap to be implemented in a generalized way. Thus, after computing and registering a colormap, any contract will be able to easily read and use the color value on-chain.
+The motivation for this was to provide an easy way to query a palette of colors based on some value. One can [**write util functions**](https://twitter.com/fiveoutofnine/status/1584932730579865600) to generate colors based on some values, but without a registry, the output is quite primitive. [`ColormapRegistry`](https://github.com/fiveoutofnine/colormap-registry/blob/main/src/ColormapRegistry.sol) was implemented to allow _any_ possible colormap to be implemented in a streamlined, generalized way. Thus, after computing and registering a colormap, any contract will be able to easily read and use the color value on-chain.
 
 ### Colormap identification
 
