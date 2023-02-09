@@ -2,7 +2,7 @@
 
 An on-chain registry for colormaps.
 
-The motivation for this was to provide an easy way to query a palette of colors based on some value. One can [**write util functions**](https://twitter.com/fiveoutofnine/status/1584932730579865600) to generate colors based on some values, but without a registry, the output is quite primitive. [`ColormapRegistry`](https://github.com/fiveoutofnine/colormap-registry/blob/main/src/ColormapRegistry.sol) was implemented to allow for _any_ possible colormap to be implemented in a generalized way. Thus, after computing and registering a colormap, any contract will be able to easily read and use the color value on-chain.
+The motivation for this was to provide an easy way to query a palette of colors based on some value. One can [**write util functions**](https://twitter.com/fiveoutofnine/status/1584932730579865600) to generate colors based on some values, but without a registry, the output is quite primitive. [`ColormapRegistry`](https://github.com/fiveoutofnine/colormap-registry/blob/main/src/ColormapRegistry.sol) was implemented to allow _any_ possible colormap to be implemented in a streamlined, generalized way. Thus, after computing and registering a colormap, any contract will be able to easily read and use the color value on-chain.
 
 ### Colormap identification
 
@@ -31,10 +31,11 @@ If you need more granularity or a nonlinear palette function, you may implement 
 
 The following are deployments of [`ColormapRegistry`](https://github.com/fiveoutofnine/colormap-registry/blob/main/src/ColormapRegistry.sol). To see a list of registered colormaps, see [**REGISTERED_COLORMAPS.md**](https://github.com/fiveoutofnine/colormap-registry/blob/main/REGISTERED_COLORMAPS.md).
 
-| Chain   | Chain ID | Address                                                                                                                        |
-| ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| Mainnet | 1        | [`0x0000000012883D1da628e31c0FE52e35DcF95D50`](https://etherscan.io/address/0x0000000012883D1da628e31c0FE52e35DcF95D50)        |
-| Goerli  | 5        | [`0x0000000012883D1da628e31c0FE52e35DcF95D50`](https://goerli.etherscan.io/address/0x0000000012883D1da628e31c0FE52e35DcF95D50) |
+| Chain   | Chain ID | Address                                                                                                                          |
+| ------- | -------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Mainnet | 1        | [`0x0000000012883D1da628e31c0FE52e35DcF95D50`](https://etherscan.io/address/0x0000000012883D1da628e31c0FE52e35DcF95D50)          |
+| Goerli  | 5        | [`0x0000000012883D1da628e31c0FE52e35DcF95D50`](https://goerli.etherscan.io/address/0x0000000012883D1da628e31c0FE52e35DcF95D50)   |
+| Canto   | 7700     | [`0x0000000012883D1da628e31c0FE52e35DcF95D50`](https://evm.explorer.canto.io/address/0x0000000012883D1da628e31c0FE52e35DcF95D50) |
 
 The deployments were deployed through the `ImmutableCreate2Factory` at `0x0000000000FFe8B47B3e2130213B802212439497` with the salt
 
