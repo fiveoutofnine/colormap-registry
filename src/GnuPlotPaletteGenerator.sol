@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.21;
 
 import {FixedPointMathLib} from "solmate/utils/FixedPointMathLib.sol";
 import {Trigonometry} from "trig/Trigonometry.sol";
@@ -31,12 +31,9 @@ contract GnuPlotPaletteGenerator is IPaletteGenerator {
     // -------------------------------------------------------------------------
 
     /// @inheritdoc IPaletteGenerator
-    function r(uint256 _position)
-        external
-        pure
-        isValidPosition(_position)
-        returns (uint256)
-    {
+    function r(
+        uint256 _position
+    ) external pure isValidPosition(_position) returns (uint256) {
         unchecked {
             // We multiply by 1e9 to maintain the scale.
             return _position.sqrt() * 1e9;
@@ -44,22 +41,16 @@ contract GnuPlotPaletteGenerator is IPaletteGenerator {
     }
 
     /// @inheritdoc IPaletteGenerator
-    function g(uint256 _position)
-        external
-        pure
-        isValidPosition(_position)
-        returns (uint256)
-    {
+    function g(
+        uint256 _position
+    ) external pure isValidPosition(_position) returns (uint256) {
         return _position.rpow(3, 1e18);
     }
 
     /// @inheritdoc IPaletteGenerator
-    function b(uint256 _position)
-        external
-        pure
-        isValidPosition(_position)
-        returns (uint256)
-    {
+    function b(
+        uint256 _position
+    ) external pure isValidPosition(_position) returns (uint256) {
         unchecked {
             // The multiplication won't overflow because the `isValidPosition`
             // modifier checks that `_position` is less than 1e18. Also, we
