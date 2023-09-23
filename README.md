@@ -63,7 +63,7 @@ To read a color's R, G, and B values from a colormap 42.195% along the way, you 
 
 ```sol
 (uint256 r, uint256 g, uint256 b) = ColormapRegistry.getValue({
-    _colormapHash: "COLORMAP_HASH",
+    _hash: "COLORMAP_HASH",
     _position: 0.42195e18
 });
 ```
@@ -71,13 +71,13 @@ To read a color's R, G, and B values from a colormap 42.195% along the way, you 
 To read a color's R, G, and B values from a colormap $\frac{42}{255}$ along the way, you can run the following:
 
 ```sol
-(uint8 r, uint8 g, uint8 b) = ColormapRegistry.getValueAsUint8({ _colormapHash: "COLORMAP_HASH", _position: 42 });
+(uint8 r, uint8 g, uint8 b) = ColormapRegistry.getValueAsUint8({ _hash: "COLORMAP_HASH", _position: 42 });
 ```
 
 To read a color as a 24-bit hexstring from a colormap $\frac{42}{255}$ along the way, you can run the following:
 
 ```sol
-string memory colorHex = ColormapRegistry.getValueAsHexString({ _colormapHash: "COLORMAP_HASH", _position: 42 });
+string memory colorHex = ColormapRegistry.getValueAsHexString({ _hash: "COLORMAP_HASH", _position: 42 });
 ```
 
 ### Registering a colormap

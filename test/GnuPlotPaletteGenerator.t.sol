@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.21;
 
-import {Test} from "forge-std/Test.sol";
+import { Test } from "forge-std/Test.sol";
 
-import {GnuPlotPaletteGenerator} from "@/contracts/GnuPlotPaletteGenerator.sol";
-import {IPaletteGenerator} from "@/contracts/interfaces/IPaletteGenerator.sol";
+import { GnuPlotPaletteGenerator } from "@/contracts/GnuPlotPaletteGenerator.sol";
+import { IPaletteGenerator } from "@/contracts/interfaces/IPaletteGenerator.sol";
 
 /// @notice Unit tests for {GnuPlotPaletteGenerator}.
 /// @dev These unit tests should pass for all implementations of
@@ -39,10 +39,7 @@ contract GnuPlotPaletteGeneratorTest is Test {
 
         // Expect revert because `_position` is greater than 1e18.
         vm.expectRevert(
-            abi.encodeWithSelector(
-                IPaletteGenerator.InvalidPosition.selector,
-                _position
-            )
+            abi.encodeWithSelector(IPaletteGenerator.InvalidPosition.selector, _position)
         );
         gnuPlotPaletteGenerator.r(_position);
     }
@@ -65,10 +62,7 @@ contract GnuPlotPaletteGeneratorTest is Test {
 
         // Expect revert because `_position` is greater than 1e18.
         vm.expectRevert(
-            abi.encodeWithSelector(
-                IPaletteGenerator.InvalidPosition.selector,
-                _position
-            )
+            abi.encodeWithSelector(IPaletteGenerator.InvalidPosition.selector, _position)
         );
         gnuPlotPaletteGenerator.g(_position);
     }
@@ -91,10 +85,7 @@ contract GnuPlotPaletteGeneratorTest is Test {
 
         // Expect revert because `_position` is greater than 1e18.
         vm.expectRevert(
-            abi.encodeWithSelector(
-                IPaletteGenerator.InvalidPosition.selector,
-                _position
-            )
+            abi.encodeWithSelector(IPaletteGenerator.InvalidPosition.selector, _position)
         );
         gnuPlotPaletteGenerator.b(_position);
     }

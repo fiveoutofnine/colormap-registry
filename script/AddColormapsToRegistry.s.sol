@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.21;
 
-import {Script} from "forge-std/Script.sol";
+import { Script } from "forge-std/Script.sol";
 
-import {ColormapRegistry} from "@/contracts/ColormapRegistry.sol";
-import {IColormapRegistry} from "@/contracts/interfaces/IColormapRegistry.sol";
+import { ColormapRegistry } from "@/contracts/ColormapRegistry.sol";
+import { IColormapRegistry } from "@/contracts/interfaces/IColormapRegistry.sol";
 
 /// @notice A script to deploy {ColormapRegistry}.
 contract AddColormapsToRegistryScript is Script {
@@ -13,8 +13,7 @@ contract AddColormapsToRegistryScript is Script {
     // -------------------------------------------------------------------------
 
     /// @notice Address of the colormap registry.
-    address constant COLORMAP_REGISTRY =
-        0x0000000012883D1da628e31c0FE52e35DcF95D50;
+    address constant COLORMAP_REGISTRY = 0x0000000012883D1da628e31c0FE52e35DcF95D50;
 
     // -------------------------------------------------------------------------
     // Script `run()`
@@ -29,12 +28,9 @@ contract AddColormapsToRegistryScript is Script {
         // Add ``CMRmap'' colormap to the registry.
         {
             IColormapRegistry.SegmentData memory CMRmapSegmentData;
-            CMRmapSegmentData
-                .r = 0xFFFFFFDFE5E5BFE5E59FE5E57FFFFF5F99993F4C4C1F2626000000;
-            CMRmapSegmentData
-                .g = 0xFFFFFFDFE5E5BFBFBF9F7F7F7F3F3F5F33333F26261F2626000000;
-            CMRmapSegmentData
-                .b = 0xFFFFFFDF7F7FBF19199F00007F26265F7F7F3FBFBF1F7F7F000000;
+            CMRmapSegmentData.r = 0xFFFFFFDFE5E5BFE5E59FE5E57FFFFF5F99993F4C4C1F2626000000;
+            CMRmapSegmentData.g = 0xFFFFFFDFE5E5BFBFBF9F7F7F7F3F3F5F33333F26261F2626000000;
+            CMRmapSegmentData.b = 0xFFFFFFDF7F7FBF19199F00007F26265F7F7F3FBFBF1F7F7F000000;
             colormapRegistry.register(CMRmapSegmentData);
         }
 
@@ -95,12 +91,9 @@ contract AddColormapsToRegistryScript is Script {
         // Add ``gist_rainbow'' colormap to the registry.
         {
             IColormapRegistry.SegmentData memory gist_rainbowSegmentData;
-            gist_rainbowSegmentData
-                .r = 0xFFFFFFF3FFFFC4000095000066000036FFFF07FFFF00FFFF;
-            gist_rainbowSegmentData
-                .g = 0xFF0000F30000C4000095FFFF66FFFF36FFFF070000000000;
-            gist_rainbowSegmentData
-                .b = 0xFFBFBFF3FFFFC4FFFF95FFFF660000360000070000002828;
+            gist_rainbowSegmentData.r = 0xFFFFFFF3FFFFC4000095000066000036FFFF07FFFF00FFFF;
+            gist_rainbowSegmentData.g = 0xFF0000F30000C4000095FFFF66FFFF36FFFF070000000000;
+            gist_rainbowSegmentData.b = 0xFFBFBFF3FFFFC4FFFF95FFFF660000360000070000002828;
             colormapRegistry.register(gist_rainbowSegmentData);
         }
 
@@ -134,8 +127,7 @@ contract AddColormapsToRegistryScript is Script {
         // Add ``hsv'' colormap to the registry.
         {
             IColormapRegistry.SegmentData memory hsvSegmentData;
-            hsvSegmentData
-                .r = 0xFFFFFFDAFFFFD6F7F7AE0707AA00005900005407072CF7F728FFFF00FFFF;
+            hsvSegmentData.r = 0xFFFFFFDAFFFFD6F7F7AE0707AA00005900005407072CF7F728FFFF00FFFF;
             hsvSegmentData.g = 0xFF0000AE0000AA0F0F81FFFF2CFFFF28EFEF000000;
             hsvSegmentData.b = 0xFF1717DAEFEFD6FFFF81FFFF590F0F540000000000;
             colormapRegistry.register(hsvSegmentData);

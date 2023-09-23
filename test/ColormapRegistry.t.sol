@@ -31,26 +31,26 @@ contract ColormapRegistryTest is BaseTest {
     function test_register_ViaPaletteGenerator() public {
         // Deploy a `gnuplot` colormap.
         GnuPlotPaletteGenerator newGnuPlotPaletteGenerator = new GnuPlotPaletteGenerator();
-        bytes8 colormapHash = bytes8(
+        bytes8 hash = bytes8(
             keccak256(abi.encodePacked(newGnuPlotPaletteGenerator))
         );
 
         // The palette generator is unset.
         {
             assertEq(
-                address(colormapRegistry.paletteGenerators(colormapHash)),
+                address(colormapRegistry.paletteGenerators(hash)),
                 address(0)
             );
         }
 
         vm.expectEmit(true, true, true, true);
-        emit RegisterColormap(colormapHash, newGnuPlotPaletteGenerator);
+        emit RegisterColormap(hash, newGnuPlotPaletteGenerator);
         colormapRegistry.register(newGnuPlotPaletteGenerator);
 
         // The palette generator was set.
         {
             assertEq(
-                address(colormapRegistry.paletteGenerators(colormapHash)),
+                address(colormapRegistry.paletteGenerators(hash)),
                 address(newGnuPlotPaletteGenerator)
             );
         }
@@ -182,27 +182,23 @@ contract ColormapRegistryTest is BaseTest {
         segmentData.r = SIMPLE_VALID_SEGMENT;
         segmentData.g = SIMPLE_VALID_SEGMENT;
         segmentData.b = SIMPLE_VALID_SEGMENT;
-        bytes8 colormapHash = SIMPLE_VALID_SEGMENT_HASH;
+        bytes8 hash = SIMPLE_VALID_SEGMENT_HASH;
 
         // The segment data is unset.
         {
-            (uint256 r, uint256 g, uint256 b) = colormapRegistry.segments(
-                colormapHash
-            );
+            (uint256 r, uint256 g, uint256 b) = colormapRegistry.segments(hash);
             assertEq(r, 0);
             assertEq(g, 0);
             assertEq(b, 0);
         }
 
         vm.expectEmit(true, true, true, true);
-        emit RegisterColormap(colormapHash, segmentData);
+        emit RegisterColormap(hash, segmentData);
         colormapRegistry.register(segmentData);
 
         // The segment data was set.
         {
-            (uint256 r, uint256 g, uint256 b) = colormapRegistry.segments(
-                colormapHash
-            );
+            (uint256 r, uint256 g, uint256 b) = colormapRegistry.segments(hash);
             assertEq(r, SIMPLE_VALID_SEGMENT);
             assertEq(g, SIMPLE_VALID_SEGMENT);
             assertEq(b, SIMPLE_VALID_SEGMENT);
@@ -214,24 +210,20 @@ contract ColormapRegistryTest is BaseTest {
     // -------------------------------------------------------------------------
 
     /// @notice Test that the colormap hash must exist.
-    /// @param _colormapHash Hash of some nonexistant colormap.
-    function test_getValue_ColormapHashDoesntExist_Fails(
-        bytes8 _colormapHash
-    ) public {
+    /// @param _hash Hash of some nonexistant colormap.
+    function test_getValue_ColormapHashDoesntExist_Fails(bytes8 _hash) public {
         vm.assume(
-            _colormapHash != SPRING_HASH &&
-                _colormapHash != gnuPlotHash &&
-                _colormapHash != JET_HASH
+            _hash != SPRING_HASH && _hash != gnuPlotHash && _hash != JET_HASH
         );
 
         // Expect revert because the colormap hash doesn't exist.
         vm.expectRevert(
             abi.encodeWithSelector(
                 IColormapRegistry.ColormapDoesNotExist.selector,
-                _colormapHash
+                _hash
             )
         );
-        colormapRegistry.getValue(_colormapHash, 0);
+        colormapRegistry.getValue(_hash, 0);
     }
 
     /// @notice Test that values are within bounds for all positions when read
@@ -290,24 +282,22 @@ contract ColormapRegistryTest is BaseTest {
     // -------------------------------------------------------------------------
 
     /// @notice Test that the colormap hash must exist.
-    /// @param _colormapHash Hash of some nonexistant colormap.
+    /// @param _hash Hash of some nonexistant colormap.
     function test_getValueAsUint8_ColormapHashDoesntExist_Fails(
-        bytes8 _colormapHash
+        bytes8 _hash
     ) public {
         vm.assume(
-            _colormapHash != SPRING_HASH &&
-                _colormapHash != gnuPlotHash &&
-                _colormapHash != JET_HASH
+            _hash != SPRING_HASH && _hash != gnuPlotHash && _hash != JET_HASH
         );
 
         // Expect revert because the colormap hash doesn't exist.
         vm.expectRevert(
             abi.encodeWithSelector(
                 IColormapRegistry.ColormapDoesNotExist.selector,
-                _colormapHash
+                _hash
             )
         );
-        colormapRegistry.getValueAsUint8(_colormapHash, 0);
+        colormapRegistry.getValueAsUint8(_hash, 0);
     }
 
     /// @notice Test that all positions pass when read from a palette generator.
@@ -341,24 +331,22 @@ contract ColormapRegistryTest is BaseTest {
     // -------------------------------------------------------------------------
 
     /// @notice Test that the colormap hash must exist.
-    /// @param _colormapHash Hash of some nonexistant colormap.
+    /// @param _hash Hash of some nonexistant colormap.
     function test_getValueAsHexString_ColormapHashDoesntExist_Fails(
-        bytes8 _colormapHash
+        bytes8 _hash
     ) public {
         vm.assume(
-            _colormapHash != SPRING_HASH &&
-                _colormapHash != gnuPlotHash &&
-                _colormapHash != JET_HASH
+            _hash != SPRING_HASH && _hash != gnuPlotHash && _hash != JET_HASH
         );
 
         // Expect revert because the colormap hash doesn't exist.
         vm.expectRevert(
             abi.encodeWithSelector(
                 IColormapRegistry.ColormapDoesNotExist.selector,
-                _colormapHash
+                _hash
             )
         );
-        colormapRegistry.getValueAsHexString(_colormapHash, 0);
+        colormapRegistry.getValueAsHexString(_hash, 0);
     }
 
     /// @notice Test that all positions pass when read from a palette generator.
