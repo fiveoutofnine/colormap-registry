@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.21;
 
-import { IPaletteGenerator } from "@/contracts/interfaces/IPaletteGenerator.sol";
+import {IPaletteGenerator} from "@/contracts/interfaces/IPaletteGenerator.sol";
 
 /// @title The interface for the colormap registry.
 /// @author fiveoutofnine
@@ -80,16 +80,20 @@ interface IColormapRegistry {
     // Storage
     // -------------------------------------------------------------------------
 
+    /// @param _hash Hash of the colormap's definition (palette generator).
+    /// @return IPaletteGenerator Instance of {IPaletteGenerator} for the
+    /// colormap.
+    function paletteGenerators(
+        bytes8 _hash
+    ) external view returns (IPaletteGenerator);
+
     /// @param _hash Hash of the colormap's definition (segment data).
     /// @return uint256 Segment data for red's color value along the colormap.
     /// @return uint256 Segment data for green's color value along the colormap.
     /// @return uint256 Segment data for blue's color value along the colormap.
-    function segments(bytes8 _hash) external view returns (uint256, uint256, uint256);
-
-    /// @param _hash Hash of the colormap's definition (palette generator).
-    /// @return IPaletteGenerator Instance of {IPaletteGenerator} for the
-    /// colormap.
-    function paletteGenerators(bytes8 _hash) external view returns (IPaletteGenerator);
+    function segments(
+        bytes8 _hash
+    ) external view returns (uint256, uint256, uint256);
 
     // -------------------------------------------------------------------------
     // Actions
@@ -126,10 +130,21 @@ interface IColormapRegistry {
     /// `_position`.
     /// @return uint256 Intensity of blue in that color at the position
     /// `_position`.
-    function getValue(bytes8 _hash, uint256 _position)
-        external
-        view
-        returns (uint256, uint256, uint256);
+    function getValue(
+        bytes8 _hash,
+        uint256 _position
+    ) external view returns (uint256, uint256, uint256);
+
+    /// @notice Get the hexstring for a color in a colormap at some position.
+    /// @param _hash Hash of the colormap's definition.
+    /// @param _position Position in the colormap (i.e. 0 being min, and 255
+    /// being max).
+    /// @return string Hexstring excluding ``#'' (e.g. `007CFF`) of the color
+    /// at the position `_position`.
+    function getValueAsHexString(
+        bytes8 _hash,
+        uint8 _position
+    ) external view returns (string memory);
 
     /// @notice Get the red, green, and blue color values of a color in a
     /// colormap at some position.
@@ -143,19 +158,8 @@ interface IColormapRegistry {
     /// `_position`.
     /// @return uint8 Intensity of blue in that color at the position
     /// `_position`.
-    function getValueAsUint8(bytes8 _hash, uint8 _position)
-        external
-        view
-        returns (uint8, uint8, uint8);
-
-    /// @notice Get the hexstring for a color in a colormap at some position.
-    /// @param _hash Hash of the colormap's definition.
-    /// @param _position Position in the colormap (i.e. 0 being min, and 255
-    /// being max).
-    /// @return string Hexstring excluding ``#'' (e.g. `007CFF`) of the color
-    /// at the position `_position`.
-    function getValueAsHexString(bytes8 _hash, uint8 _position)
-        external
-        view
-        returns (string memory);
+    function getValueAsUint8(
+        bytes8 _hash,
+        uint8 _position
+    ) external view returns (uint8, uint8, uint8);
 }

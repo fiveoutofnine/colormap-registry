@@ -30,9 +30,9 @@ contract ColormapRegistry is IColormapRegistry {
         // Revert if a colormap corresponding to `_hash` has never been set.
         if (
             segmentData.r ==
-            // Segment data is uninitialized.  We don't need to check `g` and
-            // `b` because the segment data would've never been initialized if
-            // any of `r`, `g`, or `b` were 0.
+            // Segment data is uninitialized.  We don't need to check `g`
+            // and `b` because the segment data would've never been
+            // initialized if any of `r`, `g`, or `b` were 0.
             0 &&
             // Palette generator is uninitialized.
             address(paletteGenerators[_hash]) == address(0)
@@ -105,6 +105,26 @@ contract ColormapRegistry is IColormapRegistry {
     }
 
     /// @inheritdoc IColormapRegistry
+    function getValueAsHexString(
+        bytes8 _hash,
+        uint8 _position
+    ) external view returns (string memory) {
+        (uint8 r, uint8 g, uint8 b) = getValueAsUint8(_hash, _position);
+
+        return
+            string(
+                abi.encodePacked(
+                    HEXADECIMAL_DIGITS[r >> 4],
+                    HEXADECIMAL_DIGITS[r & 0xF],
+                    HEXADECIMAL_DIGITS[g >> 4],
+                    HEXADECIMAL_DIGITS[g & 0xF],
+                    HEXADECIMAL_DIGITS[b >> 4],
+                    HEXADECIMAL_DIGITS[b & 0xF]
+                )
+            );
+    }
+
+    /// @inheritdoc IColormapRegistry
     function getValueAsUint8(
         bytes8 _hash,
         uint8 _position
@@ -149,26 +169,6 @@ contract ColormapRegistry is IColormapRegistry {
             _computeLinearInterpolation(segmentData.g, _position),
             _computeLinearInterpolation(segmentData.b, _position)
         );
-    }
-
-    /// @inheritdoc IColormapRegistry
-    function getValueAsHexString(
-        bytes8 _hash,
-        uint8 _position
-    ) external view returns (string memory) {
-        (uint8 r, uint8 g, uint8 b) = getValueAsUint8(_hash, _position);
-
-        return
-            string(
-                abi.encodePacked(
-                    HEXADECIMAL_DIGITS[r >> 4],
-                    HEXADECIMAL_DIGITS[r & 0xF],
-                    HEXADECIMAL_DIGITS[g >> 4],
-                    HEXADECIMAL_DIGITS[g & 0xF],
-                    HEXADECIMAL_DIGITS[b >> 4],
-                    HEXADECIMAL_DIGITS[b & 0xF]
-                )
-            );
     }
 
     // -------------------------------------------------------------------------

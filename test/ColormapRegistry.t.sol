@@ -278,55 +278,6 @@ contract ColormapRegistryTest is BaseTest {
     }
 
     // -------------------------------------------------------------------------
-    // Get value as `uint8`
-    // -------------------------------------------------------------------------
-
-    /// @notice Test that the colormap hash must exist.
-    /// @param _hash Hash of some nonexistant colormap.
-    function test_getValueAsUint8_ColormapHashDoesntExist_Fails(
-        bytes8 _hash
-    ) public {
-        vm.assume(
-            _hash != SPRING_HASH && _hash != gnuPlotHash && _hash != JET_HASH
-        );
-
-        // Expect revert because the colormap hash doesn't exist.
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                IColormapRegistry.ColormapDoesNotExist.selector,
-                _hash
-            )
-        );
-        colormapRegistry.getValueAsUint8(_hash, 0);
-    }
-
-    /// @notice Test that all positions pass when read from a palette generator.
-    /// @param _position Position in the colormap.
-    function test_getValueAsUint8_FromPaletteGenerator_PassesAllPositions(
-        uint8 _position
-    ) public view {
-        colormapRegistry.getValueAsUint8(gnuPlotHash, _position);
-    }
-
-    /// @notice Test that all positions pass when read from the ``Spring''
-    /// segment data.
-    /// @param _position Position in the colormap.
-    function test_getValueAsUint8_FromSpringSegmentData_PassesAllPositions(
-        uint8 _position
-    ) public view {
-        colormapRegistry.getValueAsUint8(SPRING_HASH, _position);
-    }
-
-    /// @notice Test that all positions pass when read from the ``Jet''
-    /// segment data.
-    /// @param _position Position in the colormap.
-    function test_getValueAsUint8_FromJetSegmentData_PassesAllPositions(
-        uint8 _position
-    ) public view {
-        colormapRegistry.getValueAsUint8(JET_HASH, _position);
-    }
-
-    // -------------------------------------------------------------------------
     // Get value as hexstring
     // -------------------------------------------------------------------------
 
@@ -373,5 +324,54 @@ contract ColormapRegistryTest is BaseTest {
         uint8 _position
     ) public view {
         colormapRegistry.getValueAsHexString(JET_HASH, _position);
+    }
+
+    // -------------------------------------------------------------------------
+    // Get value as `uint8`
+    // -------------------------------------------------------------------------
+
+    /// @notice Test that the colormap hash must exist.
+    /// @param _hash Hash of some nonexistant colormap.
+    function test_getValueAsUint8_ColormapHashDoesntExist_Fails(
+        bytes8 _hash
+    ) public {
+        vm.assume(
+            _hash != SPRING_HASH && _hash != gnuPlotHash && _hash != JET_HASH
+        );
+
+        // Expect revert because the colormap hash doesn't exist.
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IColormapRegistry.ColormapDoesNotExist.selector,
+                _hash
+            )
+        );
+        colormapRegistry.getValueAsUint8(_hash, 0);
+    }
+
+    /// @notice Test that all positions pass when read from a palette generator.
+    /// @param _position Position in the colormap.
+    function test_getValueAsUint8_FromPaletteGenerator_PassesAllPositions(
+        uint8 _position
+    ) public view {
+        colormapRegistry.getValueAsUint8(gnuPlotHash, _position);
+    }
+
+    /// @notice Test that all positions pass when read from the ``Spring''
+    /// segment data.
+    /// @param _position Position in the colormap.
+    function test_getValueAsUint8_FromSpringSegmentData_PassesAllPositions(
+        uint8 _position
+    ) public view {
+        colormapRegistry.getValueAsUint8(SPRING_HASH, _position);
+    }
+
+    /// @notice Test that all positions pass when read from the ``Jet''
+    /// segment data.
+    /// @param _position Position in the colormap.
+    function test_getValueAsUint8_FromJetSegmentData_PassesAllPositions(
+        uint8 _position
+    ) public view {
+        colormapRegistry.getValueAsUint8(JET_HASH, _position);
     }
 }
