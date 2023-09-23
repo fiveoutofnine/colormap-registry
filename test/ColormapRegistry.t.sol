@@ -31,8 +31,8 @@ contract ColormapRegistryTest is BaseTest {
     function test_register_ViaPaletteGenerator() public {
         // Deploy a `gnuplot` colormap.
         GnuPlotPaletteGenerator newGnuPlotPaletteGenerator = new GnuPlotPaletteGenerator();
-        bytes32 colormapHash = keccak256(
-            abi.encodePacked(newGnuPlotPaletteGenerator)
+        bytes8 colormapHash = bytes8(
+            keccak256(abi.encodePacked(newGnuPlotPaletteGenerator))
         );
 
         // The palette generator is unset.
@@ -182,7 +182,7 @@ contract ColormapRegistryTest is BaseTest {
         segmentData.r = SIMPLE_VALID_SEGMENT;
         segmentData.g = SIMPLE_VALID_SEGMENT;
         segmentData.b = SIMPLE_VALID_SEGMENT;
-        bytes32 colormapHash = SIMPLE_VALID_SEGMENT_HASH;
+        bytes8 colormapHash = SIMPLE_VALID_SEGMENT_HASH;
 
         // The segment data is unset.
         {
@@ -215,9 +215,9 @@ contract ColormapRegistryTest is BaseTest {
 
     /// @notice Test that the colormap hash must exist.
     /// @param _colormapHash Hash of some nonexistant colormap.
-    function test_getValue_ColormapHashDoesntExist_Fails(bytes32 _colormapHash)
-        public
-    {
+    function test_getValue_ColormapHashDoesntExist_Fails(
+        bytes8 _colormapHash
+    ) public {
         vm.assume(
             _colormapHash != SPRING_HASH &&
                 _colormapHash != gnuPlotHash &&
@@ -292,7 +292,7 @@ contract ColormapRegistryTest is BaseTest {
     /// @notice Test that the colormap hash must exist.
     /// @param _colormapHash Hash of some nonexistant colormap.
     function test_getValueAsUint8_ColormapHashDoesntExist_Fails(
-        bytes32 _colormapHash
+        bytes8 _colormapHash
     ) public {
         vm.assume(
             _colormapHash != SPRING_HASH &&
@@ -343,7 +343,7 @@ contract ColormapRegistryTest is BaseTest {
     /// @notice Test that the colormap hash must exist.
     /// @param _colormapHash Hash of some nonexistant colormap.
     function test_getValueAsHexString_ColormapHashDoesntExist_Fails(
-        bytes32 _colormapHash
+        bytes8 _colormapHash
     ) public {
         vm.assume(
             _colormapHash != SPRING_HASH &&

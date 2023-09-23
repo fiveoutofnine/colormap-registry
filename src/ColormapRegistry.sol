@@ -13,10 +13,10 @@ contract ColormapRegistry is IColormapRegistry {
     // -------------------------------------------------------------------------
 
     /// @inheritdoc IColormapRegistry
-    mapping(bytes32 => SegmentData) public override segments;
+    mapping(bytes8 => SegmentData) public override segments;
 
     /// @inheritdoc IColormapRegistry
-    mapping(bytes32 => IPaletteGenerator) public override paletteGenerators;
+    mapping(bytes8 => IPaletteGenerator) public override paletteGenerators;
 
     // -------------------------------------------------------------------------
     // Modifiers
@@ -24,7 +24,7 @@ contract ColormapRegistry is IColormapRegistry {
 
     /// @dev Reverts a function if a colormap does not exist.
     /// @param _colormapHash Hash of the colormap's definition.
-    modifier colormapExists(bytes32 _colormapHash) {
+    modifier colormapExists(bytes8 _colormapHash) {
         SegmentData memory segmentData = segments[_colormapHash];
 
         // Revert if a colormap corresponding to `_colormapHash` has never been
@@ -49,7 +49,7 @@ contract ColormapRegistry is IColormapRegistry {
 
     /// @inheritdoc IColormapRegistry
     function register(IPaletteGenerator _paletteGenerator) external {
-        bytes32 colormapHash = _computeColormapHash(_paletteGenerator);
+        bytes8 colormapHash = _computeColormapHash(_paletteGenerator);
 
         // Store palette generator.
         paletteGenerators[colormapHash] = _paletteGenerator;
@@ -60,7 +60,7 @@ contract ColormapRegistry is IColormapRegistry {
 
     /// @inheritdoc IColormapRegistry
     function register(SegmentData memory _segmentData) external {
-        bytes32 colormapHash = _computeColormapHash(_segmentData);
+        bytes8 colormapHash = _computeColormapHash(_segmentData);
 
         // Check if `_segmentData` is valid.
         _checkSegmentDataValidity(_segmentData.r);
@@ -79,15 +79,14 @@ contract ColormapRegistry is IColormapRegistry {
     // -------------------------------------------------------------------------
 
     /// @inheritdoc IColormapRegistry
-    function getValue(bytes32 _colormapHash, uint256 _position)
+    function getValue(
+        bytes8 _colormapHash,
+        uint256 _position
+    )
         external
         view
         colormapExists(_colormapHash)
-        returns (
-            uint256,
-            uint256,
-            uint256
-        )
+        returns (uint256, uint256, uint256)
     {
         IPaletteGenerator paletteGenerator = paletteGenerators[_colormapHash];
 
@@ -111,16 +110,10 @@ contract ColormapRegistry is IColormapRegistry {
     }
 
     /// @inheritdoc IColormapRegistry
-    function getValueAsUint8(bytes32 _colormapHash, uint8 _position)
-        public
-        view
-        colormapExists(_colormapHash)
-        returns (
-            uint8,
-            uint8,
-            uint8
-        )
-    {
+    function getValueAsUint8(
+        bytes8 _colormapHash,
+        uint8 _position
+    ) public view colormapExists(_colormapHash) returns (uint8, uint8, uint8) {
         IPaletteGenerator paletteGenerator = paletteGenerators[_colormapHash];
 
         // Compute using the palette generator, if there exists one.
@@ -164,11 +157,10 @@ contract ColormapRegistry is IColormapRegistry {
     }
 
     /// @inheritdoc IColormapRegistry
-    function getValueAsHexString(bytes32 _colormapHash, uint8 _position)
-        external
-        view
-        returns (string memory)
-    {
+    function getValueAsHexString(
+        bytes8 _colormapHash,
+        uint8 _position
+    ) external view returns (string memory) {
         (uint8 r, uint8 g, uint8 b) = getValueAsUint8(_colormapHash, _position);
 
         return
@@ -192,7 +184,7 @@ contract ColormapRegistry is IColormapRegistry {
     /// @dev The function reverts if the colormap corresponding to
     /// `_colormapHash` was never registered.
     /// @param _colormapHash Hash of the colormap's definition.
-    function _checkColormapDoesNotExist(bytes32 _colormapHash) internal view {
+    function _checkColormapDoesNotExist(bytes8 _colormapHash) internal view {
         SegmentData memory segmentData = segments[_colormapHash];
 
         // Revert if a colormap corresponding to `colormapHash` has already
@@ -248,14 +240,14 @@ contract ColormapRegistry is IColormapRegistry {
     /// @notice Computes the hash of a colormap defined via a palette generator.
     /// @dev The function reverts if the colormap already exists.
     /// @param _paletteGenerator Palette generator for the colormap.
-    /// @return bytes32 Hash of `_paletteGenerator`.
-    function _computeColormapHash(IPaletteGenerator _paletteGenerator)
-        internal
-        view
-        returns (bytes32)
-    {
+    /// @return bytes8 Hash of `_paletteGenerator`.
+    function _computeColormapHash(
+        IPaletteGenerator _paletteGenerator
+    ) internal view returns (bytes8) {
         // Compute hash.
-        bytes32 colormapHash = keccak256(abi.encodePacked(_paletteGenerator));
+        bytes8 colormapHash = bytes8(
+            keccak256(abi.encodePacked(_paletteGenerator))
+        );
 
         // Revert if colormap does not exist.
         _checkColormapDoesNotExist(colormapHash);
@@ -267,15 +259,15 @@ contract ColormapRegistry is IColormapRegistry {
     /// @dev The function reverts if the colormap already exists.
     /// @param _segmentData Segment data for the colormap. See
     /// {IColormapRegistry} for its representation.
-    /// @return bytes32 Hash of the contents of `_segmentData`.
-    function _computeColormapHash(SegmentData memory _segmentData)
-        internal
-        view
-        returns (bytes32)
-    {
+    /// @return bytes8 Hash of the contents of `_segmentData`.
+    function _computeColormapHash(
+        SegmentData memory _segmentData
+    ) internal view returns (bytes8) {
         // Compute hash.
-        bytes32 colormapHash = keccak256(
-            abi.encodePacked(_segmentData.r, _segmentData.g, _segmentData.b)
+        bytes8 colormapHash = bytes8(
+            keccak256(
+                abi.encodePacked(_segmentData.r, _segmentData.g, _segmentData.b)
+            )
         );
 
         // Revert if colormap does not exist.
@@ -290,11 +282,10 @@ contract ColormapRegistry is IColormapRegistry {
     /// {IColormapRegistry} for its representation.
     /// @param _position Position along the colormap.
     /// @return uint8 Intensity of the color at the position in the colormap.
-    function _computeLinearInterpolation(uint256 _segmentData, uint8 _position)
-        internal
-        pure
-        returns (uint8)
-    {
+    function _computeLinearInterpolation(
+        uint256 _segmentData,
+        uint8 _position
+    ) internal pure returns (uint8) {
         // We loop until we find the segment with the greatest position less
         // than `_position`.
         while ((_segmentData >> 40) & 0xFF < _position) {

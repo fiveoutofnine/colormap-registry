@@ -18,23 +18,47 @@ contract BaseTest is Test {
 
     /// @notice Hash of the segment data corresponding to the ``Spring''
     /// colormap.
-    /// @dev `keccak256(abi.encodePacked(0xFFFFFF00FFFF, 0xFFFFFF000000, 0xFF000000FFFF))`
-    bytes32 constant SPRING_HASH =
-        0xc1806ea961848ac00c1f20aa0611529da522a7bd125a3036fe4641b07ee5c61c;
+    /// @dev `0xc1806ea961848ac00c1f20aa0611529da522a7bd125a3036fe4641b07ee5c61c`.
+    bytes8 constant SPRING_HASH =
+        bytes8(
+            keccak256(
+                abi.encodePacked(
+                    uint256(0xFFFFFF00FFFF),
+                    uint256(0xFFFFFF000000),
+                    uint256(0xFF000000FFFF)
+                )
+            )
+        );
 
     /// @notice Hash of the segment data corresponding to the ``Jet'' colormap.
-    /// @dev `keccak256(abi.encodePacked(0xFF7F7FE2FFFFA8FFFF590000000000, 0xFF0000E80000A3FFFF5FFFFF1F0000000000, 0xFF0000A5000056FFFF1CFFFF007F7F))`
-    bytes32 constant JET_HASH =
-        0x026736ef8439ebcf8e7b8006bf8cb7482ced84d71b900407a9ed63e1b7bfe234;
+    /// @dev `0x026736ef8439ebcf8e7b8006bf8cb7482ced84d71b900407a9ed63e1b7bfe234`.
+    bytes8 constant JET_HASH =
+        bytes8(
+            keccak256(
+                abi.encodePacked(
+                    uint256(0xFF7F7FE2FFFFA8FFFF590000000000),
+                    uint256(0xFF0000E80000A3FFFF5FFFFF1F0000000000),
+                    uint256(0xFF0000A5000056FFFF1CFFFF007F7F)
+                )
+            )
+        );
 
     /// @notice The simplest, valid segment.
     uint256 constant SIMPLE_VALID_SEGMENT = 0xFFFFFF00FFFF;
 
     /// @notice Hash of segment data where R, G, and B are all the simplest,
     /// valid segment.
-    /// @dev `keccak256(abi.encodePacked(SIMPLE_VALID_SEGMENT, SIMPLE_VALID_SEGMENT, SIMPLE_VALID_SEGMENT))``
-    bytes32 constant SIMPLE_VALID_SEGMENT_HASH =
-        0xcb7631b03f24518f4e4590ff71b1008d6aec2ae35b6c62cd9fb4d72608060e8e;
+    /// @dev `0xcb7631b03f24518f4e4590ff71b1008d6aec2ae35b6c62cd9fb4d72608060e8e`.
+    bytes8 constant SIMPLE_VALID_SEGMENT_HASH =
+        bytes8(
+            keccak256(
+                abi.encodePacked(
+                    SIMPLE_VALID_SEGMENT,
+                    SIMPLE_VALID_SEGMENT,
+                    SIMPLE_VALID_SEGMENT
+                )
+            )
+        );
 
     // -------------------------------------------------------------------------
     // Events
@@ -46,14 +70,14 @@ contract BaseTest is Test {
     /// @param _hash Hash of `_paletteGenerator`.
     /// @param _paletteGenerator Instance of {IPaletteGenerator} for the
     /// colormap.
-    event RegisterColormap(bytes32 _hash, IPaletteGenerator _paletteGenerator);
+    event RegisterColormap(bytes8 _hash, IPaletteGenerator _paletteGenerator);
 
     /// @notice Emitted when a colormap is registered via segment data.
     /// @dev Copied from {IColormapRegistry}.
     /// @param _hash Hash of `_segmentData`.
     /// @param _segmentData Segment data defining the colormap.
     event RegisterColormap(
-        bytes32 _hash,
+        bytes8 _hash,
         IColormapRegistry.SegmentData _segmentData
     );
 
@@ -76,7 +100,7 @@ contract BaseTest is Test {
     // -------------------------------------------------------------------------
 
     /// @notice Hash of the ``gnuplot` colormap deployed in {BaseTest.setUp}.
-    bytes32 public gnuPlotHash;
+    bytes8 public gnuPlotHash;
 
     // -------------------------------------------------------------------------
     // Set up
@@ -111,7 +135,9 @@ contract BaseTest is Test {
         colormapRegistry.register(gnuPlotPaletteGenerator);
 
         // Set hash.
-        gnuPlotHash = keccak256(abi.encodePacked(gnuPlotPaletteGenerator));
+        gnuPlotHash = bytes8(
+            keccak256(abi.encodePacked(gnuPlotPaletteGenerator))
+        );
 
         // Deploy a second instance of the `gnuplot` palette generator contract.
         samplePaletteGenerator = new GnuPlotPaletteGenerator();

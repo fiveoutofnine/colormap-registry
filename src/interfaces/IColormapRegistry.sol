@@ -30,11 +30,11 @@ interface IColormapRegistry {
 
     /// @notice Emitted when a colormap already exists.
     /// @param _colormapHash Hash of the colormap's definition.
-    error ColormapAlreadyExists(bytes32 _colormapHash);
+    error ColormapAlreadyExists(bytes8 _colormapHash);
 
     /// @notice Emitted when a colormap does not exist.
     /// @param _colormapHash Hash of the colormap's definition.
-    error ColormapDoesNotExist(bytes32 _colormapHash);
+    error ColormapDoesNotExist(bytes8 _colormapHash);
 
     /// @notice Emitted when a segment data used to define a colormap does not
     /// follow the representation outlined in {IColormapRegistry}.
@@ -69,12 +69,12 @@ interface IColormapRegistry {
     /// @param _hash Hash of `_paletteGenerator`.
     /// @param _paletteGenerator Instance of {IPaletteGenerator} for the
     /// colormap.
-    event RegisterColormap(bytes32 _hash, IPaletteGenerator _paletteGenerator);
+    event RegisterColormap(bytes8 _hash, IPaletteGenerator _paletteGenerator);
 
     /// @notice Emitted when a colormap is registered via segment data.
     /// @param _hash Hash of `_segmentData`.
     /// @param _segmentData Segment data defining the colormap.
-    event RegisterColormap(bytes32 _hash, SegmentData _segmentData);
+    event RegisterColormap(bytes8 _hash, SegmentData _segmentData);
 
     // -------------------------------------------------------------------------
     // Storage
@@ -84,23 +84,17 @@ interface IColormapRegistry {
     /// @return uint256 Segment data for red's color value along the colormap.
     /// @return uint256 Segment data for green's color value along the colormap.
     /// @return uint256 Segment data for blue's color value along the colormap.
-    function segments(bytes32 _colormapHash)
-        external
-        view
-        returns (
-            uint256,
-            uint256,
-            uint256
-        );
+    function segments(
+        bytes8 _colormapHash
+    ) external view returns (uint256, uint256, uint256);
 
     /// @param _colormapHash Hash of the colormap's definition (palette
     /// generator).
     /// @return IPaletteGenerator Instance of {IPaletteGenerator} for the
     /// colormap.
-    function paletteGenerators(bytes32 _colormapHash)
-        external
-        view
-        returns (IPaletteGenerator);
+    function paletteGenerators(
+        bytes8 _colormapHash
+    ) external view returns (IPaletteGenerator);
 
     // -------------------------------------------------------------------------
     // Actions
@@ -137,14 +131,10 @@ interface IColormapRegistry {
     /// `_position`.
     /// @return uint256 Intensity of blue in that color at the position
     /// `_position`.
-    function getValue(bytes32 _colormapHash, uint256 _position)
-        external
-        view
-        returns (
-            uint256,
-            uint256,
-            uint256
-        );
+    function getValue(
+        bytes8 _colormapHash,
+        uint256 _position
+    ) external view returns (uint256, uint256, uint256);
 
     /// @notice Get the red, green, and blue color values of a color in a
     /// colormap at some position.
@@ -158,14 +148,10 @@ interface IColormapRegistry {
     /// `_position`.
     /// @return uint8 Intensity of blue in that color at the position
     /// `_position`.
-    function getValueAsUint8(bytes32 _colormapHash, uint8 _position)
-        external
-        view
-        returns (
-            uint8,
-            uint8,
-            uint8
-        );
+    function getValueAsUint8(
+        bytes8 _colormapHash,
+        uint8 _position
+    ) external view returns (uint8, uint8, uint8);
 
     /// @notice Get the hexstring for a color in a colormap at some position.
     /// @param _colormapHash Hash of the colormap's definition.
@@ -173,8 +159,8 @@ interface IColormapRegistry {
     /// being max).
     /// @return string Hexstring excluding ``#'' (e.g. `007CFF`) of the color
     /// at the position `_position`.
-    function getValueAsHexString(bytes32 _colormapHash, uint8 _position)
-        external
-        view
-        returns (string memory);
+    function getValueAsHexString(
+        bytes8 _colormapHash,
+        uint8 _position
+    ) external view returns (string memory);
 }
