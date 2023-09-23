@@ -9,6 +9,165 @@ import {GnuPlotPaletteGenerator} from "@/contracts/GnuPlotPaletteGenerator.sol";
 /// @notice Unit tests for {ColormapRegistry}, organized by functions.
 contract ColormapRegistryTest is BaseTest {
     // -------------------------------------------------------------------------
+    // Batch register with palette generator
+    // -------------------------------------------------------------------------
+
+    /// @notice Test that registering the same color map via a palette generator
+    /// fails.
+    function test_batchRegister_ViaPaletteGeneratorAddSameColormapTwice_Fails()
+        public
+    {
+        IPaletteGenerator[]
+            memory gnuPlotPaletteGenerators = new IPaletteGenerator[](1);
+        gnuPlotPaletteGenerators[0] = gnuPlotPaletteGenerator;
+
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IColormapRegistry.ColormapAlreadyExists.selector,
+                gnuPlotHash
+            )
+        );
+        colormapRegistry.batchRegister(gnuPlotPaletteGenerators);
+    }
+
+    /// @notice Test events emitted and storage variable changes upon
+    /// batch registering colormaps via palette generator.
+    function test_batchRegister_ViaPaletteGenerator() public {
+        // Deploy 2 `gnuplot` colormaps.
+        GnuPlotPaletteGenerator newGnuPlotPaletteGenerator0 = new GnuPlotPaletteGenerator();
+        GnuPlotPaletteGenerator newGnuPlotPaletteGenerator1 = new GnuPlotPaletteGenerator();
+        bytes8 hash0 = bytes8(
+            keccak256(abi.encodePacked(newGnuPlotPaletteGenerator0))
+        );
+        bytes8 hash1 = bytes8(
+            keccak256(abi.encodePacked(newGnuPlotPaletteGenerator1))
+        );
+
+        // The palette generators are unset.
+        {
+            assertEq(
+                address(colormapRegistry.paletteGenerators(hash0)),
+                address(0)
+            );
+            assertEq(
+                address(colormapRegistry.paletteGenerators(hash1)),
+                address(0)
+            );
+        }
+
+        IPaletteGenerator[]
+            memory gnuPlotPaletteGenerators = new IPaletteGenerator[](2);
+        gnuPlotPaletteGenerators[0] = newGnuPlotPaletteGenerator0;
+        gnuPlotPaletteGenerators[1] = newGnuPlotPaletteGenerator1;
+
+        vm.expectEmit(true, true, true, true);
+        emit RegisterColormap(hash0, newGnuPlotPaletteGenerator0);
+        emit RegisterColormap(hash1, newGnuPlotPaletteGenerator1);
+        colormapRegistry.batchRegister(gnuPlotPaletteGenerators);
+
+        // The palette generators were set.
+        {
+            assertEq(
+                address(colormapRegistry.paletteGenerators(hash0)),
+                address(newGnuPlotPaletteGenerator0)
+            );
+            assertEq(
+                address(colormapRegistry.paletteGenerators(hash1)),
+                address(newGnuPlotPaletteGenerator1)
+            );
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Batch register with segment data
+    // -------------------------------------------------------------------------
+
+    /// @notice Test that tach registering the same colormaps via segment data
+    /// fails.
+    function test_batchRegister_ViaSegmentDataAddSameColormapTwice_Fails()
+        public
+    {
+        // The ``Spring'' colormap was already added during set up.
+        IColormapRegistry.SegmentData memory springSegmentData;
+        springSegmentData.r = 0xFFFFFF00FFFF;
+        springSegmentData.g = 0xFFFFFF000000;
+        springSegmentData.b = 0xFF000000FFFF;
+
+        IColormapRegistry.SegmentData[]
+            memory segmentDataArray = new IColormapRegistry.SegmentData[](1);
+        segmentDataArray[0] = springSegmentData;
+
+        // Expect revert with the hash of the ``Spring'' colormap.
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IColormapRegistry.ColormapAlreadyExists.selector,
+                SPRING_HASH
+            )
+        );
+        colormapRegistry.batchRegister(segmentDataArray);
+    }
+
+    /// @notice Test events emitted and storage variable changes upon
+    /// batch registering colormaps via segment data.
+    function test_batchRegister_ViaSegmentData() public {
+        // Initialize a simple, valid segment data and the ``bone'' colormap.
+        IColormapRegistry.SegmentData memory segmentData0;
+        segmentData0.r = SIMPLE_VALID_SEGMENT;
+        segmentData0.g = SIMPLE_VALID_SEGMENT;
+        segmentData0.b = SIMPLE_VALID_SEGMENT;
+        IColormapRegistry.SegmentData memory segmentData1;
+        segmentData1.r = 0xFFFFFFBEA6A6000000;
+        segmentData1.g = 0xFFFFFFBEC6C65D5151000000;
+        segmentData1.b = 0xFFFFFF5D7171000000;
+        bytes8 hash0 = SIMPLE_VALID_SEGMENT_HASH;
+        bytes8 hash1 = bytes8(
+            keccak256(
+                abi.encodePacked(
+                    uint256(0xFFFFFFBEA6A6000000),
+                    uint256(0xFFFFFFBEC6C65D5151000000),
+                    uint256(0xFFFFFF5D7171000000)
+                )
+            )
+        );
+
+        // The segment data is unset.
+        {
+            (uint256 r0, uint256 g0, uint256 b0) = colormapRegistry.segments(
+                hash0
+            );
+            (uint256 r1, uint256 g1, uint256 b1) = colormapRegistry.segments(
+                hash1
+            );
+            assertEq(r0, 0);
+            assertEq(g0, 0);
+            assertEq(b0, 0);
+            assertEq(r1, 0);
+            assertEq(g1, 0);
+            assertEq(b1, 0);
+        }
+
+        IColormapRegistry.SegmentData[]
+            memory segmentDataArray = new IColormapRegistry.SegmentData[](2);
+        segmentDataArray[0] = segmentData0;
+        segmentDataArray[1] = segmentData1;
+
+        vm.expectEmit(true, true, true, true);
+        emit RegisterColormap(hash0, segmentData0);
+        emit RegisterColormap(hash1, segmentData1);
+        colormapRegistry.batchRegister(segmentDataArray);
+
+        // The segment data was set.
+        {
+            (uint256 r, uint256 g, uint256 b) = colormapRegistry.segments(
+                hash0
+            );
+            assertEq(r, SIMPLE_VALID_SEGMENT);
+            assertEq(g, SIMPLE_VALID_SEGMENT);
+            assertEq(b, SIMPLE_VALID_SEGMENT);
+        }
+    }
+
+    // -------------------------------------------------------------------------
     // Register with palette generator
     // -------------------------------------------------------------------------
 
