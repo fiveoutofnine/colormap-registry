@@ -1,27 +1,39 @@
-name: tests
+name: test
 
-on: [push, pull_request]
+on: workflow_dispatch
+
+env:
+  FOUNDRY_PROFILE: ci
 
 jobs:
   check:
+    strategy:
+      fail-fast: true
+
+    name: Foundry project
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Copy env vars
-        run: cp .env.example .env
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
           version: nightly
 
-      - name: Install deps
-        run: forge install
+      - name: Run Forge build
+        run: |
+          forge --version
+          forge build --sizes
+        id: build
 
-      - name: Check gas snapshots
-        run: forge snapshot --check
+      - name: Run Forge tests
+        run: |
+          forge test -vvv
+        id: test
 
-      - name: Run tests
-        run: forge test -vvv
+      - name: Run Forge snapshot
+        run: |
+            forge snapshot --check
+        id: snapshot
