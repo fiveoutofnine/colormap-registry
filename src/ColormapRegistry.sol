@@ -48,7 +48,7 @@ contract ColormapRegistry is IColormapRegistry {
     // -------------------------------------------------------------------------
 
     /// @inheritdoc IColormapRegistry
-    function register(IPaletteGenerator _paletteGenerator) external {
+    function register(IPaletteGenerator _paletteGenerator) public {
         bytes8 hash = _computeColormapHash(_paletteGenerator);
 
         // Store palette generator.
@@ -59,7 +59,7 @@ contract ColormapRegistry is IColormapRegistry {
     }
 
     /// @inheritdoc IColormapRegistry
-    function register(SegmentData memory _segmentData) external {
+    function register(SegmentData memory _segmentData) public {
         bytes8 hash = _computeColormapHash(_segmentData);
 
         // Check if `_segmentData` is valid.
@@ -72,6 +72,36 @@ contract ColormapRegistry is IColormapRegistry {
 
         // Emit event.
         emit RegisterColormap(hash, _segmentData);
+    }
+
+    /// @inheritdoc IColormapRegistry
+    function registerBatch(
+        IPaletteGenerator[] memory _paletteGenerators
+    ) external {
+        uint256 length = _paletteGenerators.length;
+
+        // Loop through `_paletteGenerators` and register each one.
+        for (uint256 i; i < length; ) {
+            register(_paletteGenerators[i]);
+
+            unchecked {
+                ++i;
+            }
+        }
+    }
+
+    /// @inheritdoc IColormapRegistry
+    function registerBatch(SegmentData[] memory _segmentDataArray) external {
+        uint256 length = _segmentDataArray.length;
+
+        // Loop through `_segmentDataArray` and register each one.
+        for (uint256 i; i < length; ) {
+            register(_segmentDataArray[i]);
+
+            unchecked {
+                ++i;
+            }
+        }
     }
 
     // -------------------------------------------------------------------------
