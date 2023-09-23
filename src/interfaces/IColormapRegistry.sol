@@ -99,6 +99,21 @@ interface IColormapRegistry {
     // Actions
     // -------------------------------------------------------------------------
 
+    /// @notice Batch register colormaps with palette generators.
+    /// @param _paletteGenerators Array of {IPaletteGenerator} instances for the
+    /// colormap.
+    function batchRegister(
+        IPaletteGenerator[] memory _paletteGenerators
+    ) external;
+
+    /// @notice Batch register colormaps with segment data that will be read
+    /// via piece-wise linear interpolation.
+    /// @dev See {IColormapRegistry} for how the segment data should be
+    /// structured.
+    /// @param _segmentDataArray Array of segment data tuples defining the
+    /// colormap.
+    function batchRegister(SegmentData[] memory _segmentDataArray) external;
+
     /// @notice Register a colormap with a palette generator.
     /// @param _paletteGenerator Instance of {IPaletteGenerator} for the
     /// colormap.
@@ -110,21 +125,6 @@ interface IColormapRegistry {
     /// structured.
     /// @param _segmentData Segment data defining the colormap.
     function register(SegmentData memory _segmentData) external;
-
-    /// @notice Register a batch of colormaps with palette generators.
-    /// @param _paletteGenerators Array of {IPaletteGenerator} instances for the
-    /// colormap.
-    function registerBatch(
-        IPaletteGenerator[] memory _paletteGenerators
-    ) external;
-
-    /// @notice Register a batch of colormaps with segment data that will be
-    /// read via piece-wise linear interpolation.
-    /// @dev See {IColormapRegistry} for how the segment data should be
-    /// structured.
-    /// @param _segmentDataArray Array of segment data tuples defining the
-    /// colormap.
-    function registerBatch(SegmentData[] memory _segmentDataArray) external;
 
     // -------------------------------------------------------------------------
     // View
