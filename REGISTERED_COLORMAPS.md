@@ -1,6 +1,6 @@
 # Registered colormaps
 
-The following is a list of colormaps on the mainnet deployment at [`0x0000000012883D1da628e31c0FE52e35DcF95D50`](https://etherscan.io/address/0x0000000012883D1da628e31c0FE52e35DcF95D50) split into those deployed via palette generators and those deployed via segment data.
+The following is a list of colormaps on the mainnet deployment at [`0x00000000A84FcdF3E9C165e6955945E87dA2cB0D`](https://etherscan.io/address/0x00000000A84FcdF3E9C165e6955945E87dA2cB0D) split into those deployed via palette generators and those deployed via segment data.
 
 To easily visualize a colormap, replace `COLORMAP_HASH` in [`PrintColormapScript`](https://github.com/fiveoutofnine/colormap-registry/blob/main/script/PrintColormap.s.sol) then generate an SVG of the colormap via the following command:
 
