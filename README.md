@@ -178,3 +178,7 @@ forge verify-contract --chain-id $CHAIN_ID --num-of-optimizations 1000000 --watc
 This project was built by [**fiveoutofnine**](https://twitter.com/fiveoutofnine) for [**Curta**](https://curta.wtf).
 
 The colormaps added in [`DeployScript`](https://github.com/fiveoutofnine/colormap-registry/blob/main/script/Deploy.s.sol) were adapted from [**matplotlib**](https://github.com/matplotlib/matplotlib) via [`generate_cmaps.py`](https://github.com/fiveoutofnine/colormap-registry/blob/main/generate_cmaps.py).
+
+## Disclaimer
+
+_These smart contracts are being provided as is. No guarantee, representation or warranty is being made, express or implied, as to the safety or correctness of the user interface or the smart contracts. They have not been audited and as such there can be no assurance they will work as intended, and users may experience delays, failures, errors, omissions, loss of transmitted information or loss of funds. The creators are not liable for any of the foregoing. Users should proceed with caution and use at their own risk._
