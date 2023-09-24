@@ -1,9 +1,9 @@
 [profile.default]
-src = 'src'
-out = 'out'
+src = "src"
+out = "out"
 libs = ['lib']
-solc = "0.8.17"
-optimizer_runs = 1000000
+solc = "0.8.21"
+optimizer_runs = 1_000_000
 bytecode_hash = "none"
 
 [fmt]
@@ -18,6 +18,8 @@ number_underscore = "thousands"
 [rpc_endpoints]
 mainnet = "${RPC_URL_MAINNET}"
 goerli = "${RPC_URL_GOERLI}"
+base = "${RPC_URL_BASE}"
 
 [etherscan]
-mainnet = {key = "${ETHERSCAN_KEY}"}
+mainnet = { key = "${ETHERSCAN_MAINNET_KEY}" }
+base = { key = "${ETHERSCAN_BASE_KEY}" }
