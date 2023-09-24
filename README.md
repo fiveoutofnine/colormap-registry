@@ -42,6 +42,12 @@ The following are deployments of [`ColormapRegistry`](https://github.com/fiveout
 
 <details>
     <summary>
+        View `v0.0.2` deployment details
+    </summary>
+</details>
+
+<details>
+    <summary>
         View `v0.0.1` deployment details
     </summary>
 The deployments for `v0.0.1` were deployed through the `ImmutableCreate2Factory`at`0x0000000000FFe8B47B3e2130213B802212439497` with the salt
@@ -58,12 +64,6 @@ and the bytecode
 
 which was compiled with the compiler version `v0.8.17+commit.8df45f5f` and `1000000` optimizer runs.
 
-</details>
-
-<details>
-    <summary>
-        View `v0.0.2` deployment details
-    </summary>
 </details>
 
 If you deploy the registry to other EVM chains, please make a PR to add it here.
@@ -109,7 +109,8 @@ To register a colormap via a palette generator, first implement and deploy an in
 ColormapRegistry.register(paletteGenerator);
 ```
 
-> **Note** `ColormapRegistry` (`>=v0.0.2`) also comes with batch register functions `batchRegister` via palette generator and segment data.
+> **Note**
+> The registry (`>=v0.0.2`) also comes with batch register functions `batchRegister` via palette generator and segment data.
 
 ## Local development
 
