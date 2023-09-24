@@ -13,13 +13,14 @@ contract PrintColormap is Script {
     // Deploy addresses
     // -------------------------------------------------------------------------
 
-    /// @notice Address of the colormap registry on Ethereum mainnet.
+    /// @notice Address of the colormap registry.
+    /// @dev Replace this as needed.
     address constant COLORMAP_REGISTRY =
-        0x0000000012883D1da628e31c0FE52e35DcF95D50;
+        0x69e8CB7A1114A9B7452a02a775874d0b3Ca3f659;
 
     /// @notice Hash of the colormap to print.
-    /// @dev Replace this.
-    bytes8 constant COLORMAP_HASH = bytes8(0);
+    /// @dev Replace this as needed.
+    bytes8 constant COLORMAP_HASH = bytes8(0x3de8f27f386dab3d);
 
     // -------------------------------------------------------------------------
     // Script `run()`

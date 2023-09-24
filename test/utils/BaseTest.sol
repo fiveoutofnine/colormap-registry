@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.21;
 
-import {Test} from "forge-std/Test.sol";
+import { Test } from "forge-std/Test.sol";
 
-import {ColormapRegistry} from "@/contracts/ColormapRegistry.sol";
-import {GnuPlotPaletteGenerator} from "@/contracts/GnuPlotPaletteGenerator.sol";
-import {IColormapRegistry} from "@/contracts/interfaces/IColormapRegistry.sol";
-import {IPaletteGenerator} from "@/contracts/interfaces/IPaletteGenerator.sol";
+import { ColormapRegistry } from "@/contracts/ColormapRegistry.sol";
+import { GnuPlotPaletteGenerator } from "@/contracts/GnuPlotPaletteGenerator.sol";
+import { IColormapRegistry } from "@/contracts/interfaces/IColormapRegistry.sol";
+import { IPaletteGenerator } from "@/contracts/interfaces/IPaletteGenerator.sol";
 
 /// @notice A base test contract for ColormapRegistry. In the `setUp` function,
 /// an instance of {ColormapRegistry} is deployed, and the ``Spring'' color map
@@ -18,44 +18,35 @@ contract BaseTest is Test {
 
     /// @notice Hash of the segment data corresponding to the ``Spring''
     /// colormap.
-    bytes8 constant SPRING_HASH =
-        bytes8(
-            keccak256(
-                abi.encodePacked(
-                    uint256(0xFFFFFF00FFFF),
-                    uint256(0xFFFFFF000000),
-                    uint256(0xFF000000FFFF)
-                )
+    bytes8 constant SPRING_HASH = bytes8(
+        keccak256(
+            abi.encodePacked(
+                uint256(0xFFFFFF00FFFF), uint256(0xFFFFFF000000), uint256(0xFF000000FFFF)
             )
-        );
+        )
+    );
 
     /// @notice Hash of the segment data corresponding to the ``Jet'' colormap.
-    bytes8 constant JET_HASH =
-        bytes8(
-            keccak256(
-                abi.encodePacked(
-                    uint256(0xFF7F7FE2FFFFA8FFFF590000000000),
-                    uint256(0xFF0000E80000A3FFFF5FFFFF1F0000000000),
-                    uint256(0xFF0000A5000056FFFF1CFFFF007F7F)
-                )
+    bytes8 constant JET_HASH = bytes8(
+        keccak256(
+            abi.encodePacked(
+                uint256(0xFF7F7FE2FFFFA8FFFF590000000000),
+                uint256(0xFF0000E80000A3FFFF5FFFFF1F0000000000),
+                uint256(0xFF0000A5000056FFFF1CFFFF007F7F)
             )
-        );
+        )
+    );
 
     /// @notice The simplest, valid segment.
     uint256 constant SIMPLE_VALID_SEGMENT = 0xFFFFFF00FFFF;
 
     /// @notice Hash of segment data where R, G, and B are all the simplest,
     /// valid segment.
-    bytes8 constant SIMPLE_VALID_SEGMENT_HASH =
-        bytes8(
-            keccak256(
-                abi.encodePacked(
-                    SIMPLE_VALID_SEGMENT,
-                    SIMPLE_VALID_SEGMENT,
-                    SIMPLE_VALID_SEGMENT
-                )
-            )
-        );
+    bytes8 constant SIMPLE_VALID_SEGMENT_HASH = bytes8(
+        keccak256(
+            abi.encodePacked(SIMPLE_VALID_SEGMENT, SIMPLE_VALID_SEGMENT, SIMPLE_VALID_SEGMENT)
+        )
+    );
 
     // -------------------------------------------------------------------------
     // Events
@@ -73,10 +64,7 @@ contract BaseTest is Test {
     /// @dev Copied from {IColormapRegistry}.
     /// @param _hash Hash of `_segmentData`.
     /// @param _segmentData Segment data defining the colormap.
-    event RegisterColormap(
-        bytes8 _hash,
-        IColormapRegistry.SegmentData _segmentData
-    );
+    event RegisterColormap(bytes8 _hash, IColormapRegistry.SegmentData _segmentData);
 
     // -------------------------------------------------------------------------
     // Contracts
@@ -132,9 +120,7 @@ contract BaseTest is Test {
         colormapRegistry.register(gnuPlotPaletteGenerator);
 
         // Set hash.
-        gnuPlotHash = bytes8(
-            keccak256(abi.encodePacked(gnuPlotPaletteGenerator))
-        );
+        gnuPlotHash = bytes8(keccak256(abi.encodePacked(gnuPlotPaletteGenerator)));
 
         // Deploy a second instance of the `gnuplot` palette generator contract.
         samplePaletteGenerator = new GnuPlotPaletteGenerator();

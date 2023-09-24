@@ -14,7 +14,7 @@ contract AddColormapsToRegistryScript is Script {
 
     /// @notice Address of the colormap registry on Ethereum mainnet.
     address constant COLORMAP_REGISTRY =
-        0x0000000012883D1da628e31c0FE52e35DcF95D50;
+        0x00000000A84FcdF3E9C165e6955945E87dA2cB0D;
 
     // -------------------------------------------------------------------------
     // Script `run()`
@@ -77,7 +77,7 @@ contract AddColormapsToRegistryScript is Script {
         segmentDataArray[7]
             .g = 0xFF0000F30000C4000095FFFF66FFFF36FFFF070000000000;
         segmentDataArray[7]
-            .g = 0xFFBFBFF3FFFFC4FFFF95FFFF660000360000070000002828;
+            .b = 0xFFBFBFF3FFFFC4FFFF95FFFF660000360000070000002828;
 
         // ``gist_stern'' colormap.
         segmentDataArray[8].r = 0xFFFFFF3F063F0DFFFF000000;
@@ -118,7 +118,7 @@ contract AddColormapsToRegistryScript is Script {
         // ``terrain'' colormap.
         segmentDataArray[15].r = 0xFFFFFFBF7F7F7FFFFF3F0000260000003333;
         segmentDataArray[15].g = 0xFFFFFFBF5B5B7FFFFF3FCCCC269999003333;
-        segmentDataArray[15].g = 0xFFFFFFBF54547F99993F666626FFFF009999;
+        segmentDataArray[15].b = 0xFFFFFFBF54547F99993F666626FFFF009999;
 
         // ``winter'' colormap.
         segmentDataArray[16].r = 0xFF0000000000;
