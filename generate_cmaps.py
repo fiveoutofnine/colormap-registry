@@ -234,10 +234,11 @@ cmaps = {
     'winter': _winter_data,
 }
 
-for name, data in cmaps.items():
+valid_colormap_count, solidity_source = 0, ""
+
+for i, (name, data) in enumerate(cmaps.items()):
     is_valid = True
-    code = f"// Add ``{name}'' colormap to the registry.\n"
-    code += f"IColormapRegistry.SegmentData memory {name}SegmentData;\n"
+    code = f"\n// ``{name}'' colormap.\n"
 
     if 'red' in data:
         for color, color_data in data.items():
@@ -246,36 +247,41 @@ for name, data in cmaps.items():
                 break
 
             bitmap = 0
-            for i, entry in enumerate(color_data):
+            for j, entry in enumerate(color_data):
                 onchain_representation = (math.floor(entry[0] * 0xFF) << 16)\
                     | (math.floor(entry[1] * 0xFF) << 8)\
                     | math.floor(entry[2] * 0xFF)
-                bitmap |= onchain_representation << (24 * i)
+                bitmap |= onchain_representation << (24 * j)
 
-            code += f"{name}SegmentData.{color[0]} = 0x{hex(bitmap).upper()[2:]};\n"
-        code += f"colormapRegistry.register({name}SegmentData);\n"
+            code += f"segmentDataArray[{i}].{color[0]} = 0x{hex(bitmap).upper()[2:]};\n"
     else:
         if len(data) > 10:
             is_valid = False
             continue
 
         r_bitmap, g_bitmap, b_bitmap = 0, 0, 0
-        for i, entry in enumerate(data):
-            r_bitmap |= (math.floor(entry[0] * 0xFF) << (16 + 24 * i))
-            g_bitmap |= (math.floor(entry[0] * 0xFF) << (16 + 24 * i))
-            b_bitmap |= (math.floor(entry[0] * 0xFF) << (16 + 24 * i))
+        for j, entry in enumerate(data):
+            r_bitmap |= (math.floor(entry[0] * 0xFF) << (16 + 24 * j))
+            g_bitmap |= (math.floor(entry[0] * 0xFF) << (16 + 24 * j))
+            b_bitmap |= (math.floor(entry[0] * 0xFF) << (16 + 24 * j))
 
-            r_bitmap |= (math.floor(entry[1][0] * 0xFF) << (8 + 24 * i))
-            g_bitmap |= (math.floor(entry[1][1] * 0xFF) << (8 + 24 * i))
-            b_bitmap |= (math.floor(entry[1][2] * 0xFF) << (8 + 24 * i))
+            r_bitmap |= (math.floor(entry[1][0] * 0xFF) << (8 + 24 * j))
+            g_bitmap |= (math.floor(entry[1][1] * 0xFF) << (8 + 24 * j))
+            b_bitmap |= (math.floor(entry[1][2] * 0xFF) << (8 + 24 * j))
 
-            r_bitmap |= (math.floor(entry[1][0] * 0xFF) << (24 * i))
-            g_bitmap |= (math.floor(entry[1][1] * 0xFF) << (24 * i))
-            b_bitmap |= (math.floor(entry[1][2] * 0xFF) << (24 * i))
-        code += f"{name}SegmentData.r = 0x{hex(r_bitmap).upper()[2:]};\n"
-        code += f"{name}SegmentData.g = 0x{hex(g_bitmap).upper()[2:]};\n"
-        code += f"{name}SegmentData.b = 0x{hex(b_bitmap).upper()[2:]};\n"
-        code += f"colormapRegistry.register({name}SegmentData);\n"
+            r_bitmap |= (math.floor(entry[1][0] * 0xFF) << (24 * j))
+            g_bitmap |= (math.floor(entry[1][1] * 0xFF) << (24 * j))
+            b_bitmap |= (math.floor(entry[1][2] * 0xFF) << (24 * j))
+        code += f"segmentDataArray[{i}].r = 0x{hex(r_bitmap).upper()[2:]};\n"
+        code += f"segmentDataArray[{i}].g = 0x{hex(g_bitmap).upper()[2:]};\n"
+        code += f"segmentDataArray[{i}].g = 0x{hex(b_bitmap).upper()[2:]};\n"
 
     if is_valid:
-        print(code)
+        valid_colormap_count += 1
+        solidity_source += code
+
+solidity_source = f"IColormapRegistry.SegmentData[] memory segmentDataArray = new IColormapRegistry.SegmentData[]({valid_colormap_count});\n"\
+    + solidity_source\
+    + f"\ncolormapRegistry.batchRegister(segmentDataArray);"
+
+print(solidity_source)
