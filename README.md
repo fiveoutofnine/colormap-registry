@@ -35,10 +35,11 @@ The following are deployments of [`ColormapRegistry`](https://github.com/fiveout
 
 | Chain   | Chain ID | `v0.0.1`                                                                                                                       | `v0.0.2`                                                                                                                |
 | ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| Mainnet | 1        | [`0x0000000012883D1da628e31c0FE52e35DcF95D50`](https://etherscan.io/address/0x0000000012883D1da628e31c0FE52e35DcF95D50)        | [`0x00000000A84FcdF3E9C165e6955945E87dA2cB0D`](https://etherscan.io/address/0x00000000A84FcdF3E9C165e6955945E87dA2cB0D) |
-| Goerli  | 5        | [`0x0000000012883D1da628e31c0FE52e35DcF95D50`](https://goerli.etherscan.io/address/0x0000000012883D1da628e31c0FE52e35DcF95D50) | Not deployed                                                                                                            |
-| Canto   | 7700     | [`0x0000000012883D1da628e31c0FE52e35DcF95D50`](https://cantoscan.com/address/0x0000000012883D1da628e31c0FE52e35DcF95D50)       | Not deployed                                                                                                            |
-| Base    | 8453     | Not deployed                                                                                                                   | [`0x00000000A84FcdF3E9C165e6955945E87dA2cB0D`](https://basescan.org/address/0x00000000A84FcdF3E9C165e6955945E87dA2cB0D) |
+| Mainnet        | 1        | [`0x0000000012883D1da628e31c0FE52e35DcF95D50`](https://etherscan.io/address/0x0000000012883D1da628e31c0FE52e35DcF95D50)        | [`0x00000000A84FcdF3E9C165e6955945E87dA2cB0D`](https://etherscan.io/address/0x00000000A84FcdF3E9C165e6955945E87dA2cB0D) |
+| Goerli         | 5        | [`0x0000000012883D1da628e31c0FE52e35DcF95D50`](https://goerli.etherscan.io/address/0x0000000012883D1da628e31c0FE52e35DcF95D50) | Not deployed                                                                                                            |
+| Canto          | 7700     | [`0x0000000012883D1da628e31c0FE52e35DcF95D50`](https://cantoscan.com/address/0x0000000012883D1da628e31c0FE52e35DcF95D50)       | Not deployed                                                                                                            |
+| Base           | 8453     | Not deployed                                                                                                                   | [`0x00000000A84FcdF3E9C165e6955945E87dA2cB0D`](https://basescan.org/address/0x00000000A84FcdF3E9C165e6955945E87dA2cB0D) |
+| Base Goerli    | 8453     | Not deployed                                                                                                                   | [`0x00000000A84FcdF3E9C165e6955945E87dA2cB0D`](https://goerli.basescan.org/address/0x00000000A84FcdF3E9C165e6955945E87dA2cB0D) |
 
 <details>
     <summary>
