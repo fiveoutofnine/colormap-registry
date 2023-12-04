@@ -124,7 +124,7 @@ To register a colormap via a palette generator, first implement and deploy an in
 ColormapRegistry.register(paletteGenerator);
 ```
 
-> **Note**
+> [!NOTE]
 > The registry (`>=v0.0.2`) also comes with batch register functions `batchRegister` via palette generator and segment data.
 
 ## Local development
@@ -163,7 +163,7 @@ To generate a report, run the following command:
 forge coverage --report lcov
 ```
 
-> **Note**
+> [!NOTE]
 > It may be helpful to use an extension like [**Coverage Gutters**](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters) to display the coverage over the code.
 
 ### Verifying `ColormapRegistry`
