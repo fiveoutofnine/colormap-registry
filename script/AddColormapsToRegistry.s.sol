@@ -117,6 +117,11 @@ contract AddColormapsToRegistryScript is Script {
         segmentDataArray[16].g = 0xFFFFFF000000;
         segmentDataArray[16].b = 0xFF7F7F00FFFF;
 
+        // ``base-chain'' colormap.
+        segmentDataArray[17].r = 0xFFFFFF000000;
+        segmentDataArray[17].g = 0xFFFFFF00FF52;
+        segmentDataArray[17].b = 0xFFFFFF00FFFF;
+
         colormapRegistry.batchRegister(segmentDataArray);
 
         // ---------------------------------------------------------------------
