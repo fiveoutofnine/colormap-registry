@@ -122,6 +122,11 @@ contract AddColormapsToRegistryScript is Script {
         segmentDataArray[17].g = 0xFFFFFF00FF52;
         segmentDataArray[17].b = 0xFFFFFF00FFFF;
 
+        // ``farcaster'' colormap.
+        segmentDataArray[18].r = 0xFFFFFF00008A;
+        segmentDataArray[18].g = 0xFFFFFF00FF63;
+        segmentDataArray[18].b = 0xFFFFFF00FFD2;
+
         colormapRegistry.batchRegister(segmentDataArray);
 
         // ---------------------------------------------------------------------
