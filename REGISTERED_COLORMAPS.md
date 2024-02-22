@@ -38,3 +38,4 @@ This is how the preview images in [`./assets`](https://github.com/fiveoutofnine/
 | `0xaa6277ab923279cf59d78b9b5b7fb5089c90802c353489571fca3c138056fb1b` | `0xaa6277ab923279cf` | `terrain`      | <img src="./assets/terrain.svg">      | ✅           | ✅          | ✅                  |
 | `0xdc1cecffc00e2f3196daaf53c27e53e6052a86dc875adb91607824d62469b2bf` | `0xdc1cecffc00e2f31` | `winter`       | <img src="./assets/winter.svg">       | ✅           | ✅          | ✅                  |
 | `0xe5ec9a5a3ef46e357143cc14278c12216a0741868448333a333bee0579cb50e7` | `0xe5ec9a5a3ef46e35` | `base-chain`   | <img src="./assets/base-chain.svg">   | ❌           | ✅          | ❌                  |
+| `0xe0ac19c2ffc50b0fb5289138b9c918aa1e0975cb0734ce852b29bbbf4de269de` | `0xe0ac19c2ffc50b0f` | `farcaster`    | <img src="./assets/farcaster.svg">    | ❌           | ✅          | ❌                  |
